@@ -17,7 +17,7 @@ public class TopDetection : MonoBehaviour {
 	}
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if(collision.GetComponent<Rigidbody2D>().velocity == Vector2.zero) {
+        if(collision.GetComponent<Rigidbody2D>().velocity.magnitude < 0.02f) { 
             currentGame.triggerGameOver();
         }
     }
