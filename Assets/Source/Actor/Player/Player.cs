@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
 {
 
     public PlayerIndex playerIndex;
-
+    public Color playerColor;
+    public string playerName;
     
     private LinkedList<GameObject> objectsList;
 

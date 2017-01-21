@@ -25,7 +25,6 @@ public class PlayerControl : MonoBehaviour {
 
     // Sprite renderer
     private SpriteRenderer sprite;
-    private Color color;
 
     private GameObject GetTargetObject(out RaycastHit2D hit)
     {
@@ -44,7 +43,6 @@ public class PlayerControl : MonoBehaviour {
 
         playerIndex = GetComponent<Player>().playerIndex;
         sprite = GetComponent<SpriteRenderer>();
-        color = sprite.material.color;
 		
 	}
 	
@@ -82,7 +80,6 @@ public class PlayerControl : MonoBehaviour {
             this.target = GetTargetObject(out hitInfo);
             if (this.target != null)
             {
-                sprite.material.SetColor("_Color", Color.green);
                 this.dragging = true;
 
                 //Convert world position to screen position.
@@ -93,7 +90,6 @@ public class PlayerControl : MonoBehaviour {
             }
         } else if(this.dragging == true && prevState.Buttons.A == ButtonState.Released)
         {
-            sprite.material.SetColor("_Color", color);
             this.dragging = false;
             GetComponent<Player>().addObject(target);
             this.enablePhysics(target);

@@ -11,7 +11,7 @@ public class SpawnBlock : MonoBehaviour
 	public float rumbleFrequency = 0f;
     private Timer _popTimer = new Timer(0f);
 
-    public bool popActivated = false;
+    public bool spawnActivated = false;
     public float popDelay = 5.0f;
 
 
@@ -26,7 +26,7 @@ public class SpawnBlock : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (popActivated == true && _popTimer.isFinished() == true)
+        if (spawnActivated == true && _popTimer.isFinished() == true)
         {
             Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
             bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
