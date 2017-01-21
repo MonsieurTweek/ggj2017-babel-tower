@@ -69,7 +69,7 @@ public class PlayerControl : MonoBehaviour {
         // Make the current object move
         if(Mathf.Abs(state.ThumbSticks.Left.X) > 0 || Mathf.Abs(state.ThumbSticks.Left.Y) > 0)
         {
-            Vector3 movement = new Vector3(state.ThumbSticks.Left.X * moveSpeed * Time.deltaTime, state.ThumbSticks.Left.Y * moveSpeed * Time.deltaTime);
+            Vector3 movement = new Vector3(state.ThumbSticks.Left.X * moveSpeed * Time.deltaTime, state.ThumbSticks.Left.Y * moveSpeed * Time.deltaTime, 0.0f);
             Vector3 newPositionInWorld = transform.position + movement;
             Vector3 newPositionInScreen = Camera.main.WorldToScreenPoint(transform.position + movement);
             if (newPositionInScreen.x < 0 || newPositionInScreen.x > Screen.width)
@@ -94,7 +94,7 @@ public class PlayerControl : MonoBehaviour {
 
                 //Convert world position to screen position.
                 this.screenPosition = Camera.main.WorldToScreenPoint(this.target.transform.position);
-                this.offset = target.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(transform.position.x, transform.position.y, this.screenPosition.z));
+                this.offset = target.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(transform.position.x, transform.position.y, 0.0f));
 
                 this.disablePhysics(target);
             }
@@ -110,7 +110,7 @@ public class PlayerControl : MonoBehaviour {
         if (this.dragging == true)
         {
             //It will update target gameobject's current postion.
-            this.target.transform.position = new Vector3(transform.position.x, transform.position.y, this.screenPosition.z);
+            this.target.transform.position = new Vector3(transform.position.x, transform.position.y, 0.0f);
         }
 
     }
