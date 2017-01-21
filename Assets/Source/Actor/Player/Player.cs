@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     public void addObject(GameObject releasedObject) {
         if(this.hasObject(releasedObject) == false) {
             this.objectsList.AddLast(releasedObject);
-            Debug.Log("added");
+            releasedObject.GetComponentInChildren<SpriteRenderer>().color = playerColor;
         }
 
         this.updateTowerHeight();
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
     public void removeObject(GameObject releasedObject) {
         if(this.hasObject(releasedObject) == true) {
             this.objectsList.Remove(releasedObject);
-            Debug.Log("removed");
+            releasedObject.GetComponentInChildren<SpriteRenderer>().color = Color.black;
         }
     }
 

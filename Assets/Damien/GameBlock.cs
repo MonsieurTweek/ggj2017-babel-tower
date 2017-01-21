@@ -81,7 +81,17 @@ public class GameBlock : MonoBehaviour
 	{
         CheckNearObject(collision);
 
-        if(this.catchPlayer == null) {
+        // Si on est sous le seuil des bases, le bloc redevient neutre
+        if (this.gameObject.transform.position.y < -2.25f) { // -2.5 de seuil + une sércurité
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].removeObject(this.gameObject);
+            }
+            this.catchPlayer = null;
+        }
+
+        if (this.catchPlayer == null) {
             return;
         }
 
@@ -95,10 +105,7 @@ public class GameBlock : MonoBehaviour
                
             this.catchPlayer = null;
 
-		} else if(collision.gameObject.CompareTag("Ground") == true) {
-            this.catchPlayer.removeObject(this.gameObject);
-            this.catchPlayer = null;
-        } else {
+		}  else {
             this.catchPlayer.addObject(this.gameObject);
             this.catchPlayer = null;
         }
