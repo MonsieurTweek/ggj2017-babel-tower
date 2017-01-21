@@ -34,6 +34,10 @@ public class GameBlock : MonoBehaviour
     private void Update() {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
         if(screenPosition.y < 0) {
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+            foreach(Player player in players) {
+                player.removeObject(this.gameObject);
+            }
             GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().deleteBlock(this.gameObject);
         }
     }
