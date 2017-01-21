@@ -102,7 +102,13 @@ public class PlayerControl : MonoBehaviour {
         {
             this.dragging = false;
 
-            this.enablePhysics(target);
+            if( ((int)playerIndex == 0 && target.transform.position.x < 0) || ((int)playerIndex == 1 && target.transform.position.x > 0) )
+            {
+                this.enablePhysics(target);
+            } else
+            {
+                target.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            }
             this.target = null;
         }
 

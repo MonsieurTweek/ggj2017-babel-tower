@@ -83,6 +83,8 @@ public class Game : MonoBehaviour {
 
     public void triggerGameOver()
     {
+        _Timer.Stop();
+
         Player winner = players[0];
         for(int i = 0; i < players.Length; i++)
         {
