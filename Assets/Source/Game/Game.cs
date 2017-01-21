@@ -19,6 +19,14 @@ public class Game : MonoBehaviour {
 
     // Engine
     public SpawnBlock spawnEngine;
+
+	public bool dangerActivated = true;
+
+	public AlienEffect alienEffect = null;
+	public WindEffect	tsunamiEffect = null;
+	public WindEffect	windEffect = null;
+	public QuakeEffect 	quakeEffect = null;
+
 	private DangerEngine _dangerEngine = null;
 
 	public void Awake(){
@@ -42,7 +50,8 @@ public class Game : MonoBehaviour {
 	// Update is called once per frame
 	public void Update () {
 
-        _dangerEngine.Update();
+		if (dangerActivated == true)
+        	_dangerEngine.Update();
 		
 		if(_Timer.isFinished() == true)
         {
@@ -74,6 +83,8 @@ public class Game : MonoBehaviour {
 
     public void triggerGameOver()
     {
+        _Timer.Stop();
+
         Player winner = players[0];
         for(int i = 0; i < players.Length; i++)
         {

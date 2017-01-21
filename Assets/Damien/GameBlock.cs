@@ -84,7 +84,15 @@ public class GameBlock : MonoBehaviour
 
 	}
 
-	void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (transform.position.y < -3.75f && GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic)
+        {
+            GetComponent<Collider2D>().isTrigger = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
 	{
         CheckNearObject(collision);
 
