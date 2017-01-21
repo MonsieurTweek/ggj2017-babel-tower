@@ -18,18 +18,20 @@ public class PlayerControl : MonoBehaviour {
     public int rayLength = 10;
 
     // Gamepad
-    private PlayerIndex playerIndex;
+    public PlayerIndex playerIndex;
     private bool playerIndexSet = false;
     public GamePadState state;
     public GamePadState prevState;
 
     // Sprite renderer
     private SpriteRenderer sprite;
+    private Color color;
 
-    private GameObject GetTargetObject(out RaycastHit hit)
+    private GameObject GetTargetObject(out RaycastHit2D hit)
     {
         GameObject target = null;
-        if (Physics.Raycast(transform.position, new Vector3(0.0f, 0.0f, 1.0f * rayLength), out hit))
+        hit = Physics2D.Raycast(transform.position, new Vector3(0.0f, 0.0f, 1.0f * rayLength));
+        if (hit.collider != null)
         {
             target = hit.collider.gameObject;
         }
@@ -40,31 +42,15 @@ public class PlayerControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        // Cache-cache
+        playerIndex = GetComponent<Player>().playerIndex;
         sprite = GetComponent<SpriteRenderer>();
-        sprite.material.SetColor("_Color", Color.red);
+        color = sprite.material.color;
 		
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        // Find a PlayerIndex, for a single player game
-        // Will find the first controller that is connected ans use it
-        if (!playerIndexSet || !prevState.IsConnected)
-        {
-            for (int i = 0; i < 4; ++i)
-            {
-                PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                GamePadState testState = GamePad.GetState(testPlayerIndex);
-                if (testState.IsConnected)
-                {
-                    Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-                    playerIndex = testPlayerIndex;
-                    playerIndexSet = true;
-                }
-            }
-        }
 
         prevState = state;
         state = GamePad.GetState(playerIndex);
@@ -92,7 +78,7 @@ public class PlayerControl : MonoBehaviour {
         // Grab an element
         if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
         {
-            RaycastHit hitInfo;
+            RaycastHit2D hitInfo;
             this.target = GetTargetObject(out hitInfo);
             if (this.target != null)
             {
@@ -105,7 +91,7 @@ public class PlayerControl : MonoBehaviour {
             }
         } else if(this.dragging == true && prevState.Buttons.A == ButtonState.Released)
         {
-            sprite.material.SetColor("_Color", Color.red);
+            sprite.material.SetColor("_Color", color);
             this.dragging = false;
             this.target = null;
         }
