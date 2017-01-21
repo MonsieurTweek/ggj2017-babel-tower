@@ -22,6 +22,9 @@ public class SpawnBlock : MonoBehaviour
 
     List<BlockSave> save = new List<BlockSave>();
 
+    public int maxBlocs = 20;
+    public List<GameObject> blockList = new List<GameObject>();
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -49,36 +52,56 @@ public class SpawnBlock : MonoBehaviour
 
 	private void Spawn(int position = -1)
 	{
-		int random = Random.Range(0, blocRandomWeight[blocRandomWeight.Length -1]);
-		int selectedBloc = 0;
+        freeBlock();
 
-		for (int i = 0; i < blocRandomWeight.Length; i++)
-		{
-			if (selectedBloc < blocRandomWeight[i]) 
-			{
-				selectedBloc = i;
-				break;
-			}
-		}
+        int random = Random.Range(0, blocRandomWeight[blocRandomWeight.Length - 1]);
+        int selectedBloc = 0;
 
-		Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
+        for(int i = 0; i < blocRandomWeight.Length; i++) {
+            if(selectedBloc < blocRandomWeight[i]) {
+                selectedBloc = i;
+                break;
+            }
+        }
 
-		bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
-		bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
+        Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
 
-		if (position != -1) 
-		{
-			bloc.localPosition = new Vector3(MAX_X_SPAWN * 2f * (((float)position) / (SPAWN_AT_START - 1)) + MIN_X_SPAWN, 0f, 0f);
-		} 
-			else 
-		{
-			bloc.localPosition = new Vector3(Random.Range(MIN_X_SPAWN, MAX_X_SPAWN), 0f, 0f);
-		}
+        bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
+        bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
 
+        if(position != -1) {
+            bloc.localPosition = new Vector3(MAX_X_SPAWN * 2f * (((float)position) / (SPAWN_AT_START - 1)) + MIN_X_SPAWN, 0f, 0f);
+        } else {
+            bloc.localPosition = new Vector3(Random.Range(MIN_X_SPAWN, MAX_X_SPAWN), 0f, 0f);
+        }
+
+        bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
+        blockList.Add(bloc.gameObject);
+      
 		_popTimer.SetDuration(popDelay);
 		_popTimer.Start();
-		bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
 	}
+
+    public void freeBlock() {
+        if(blockList.Count >= maxBlocs) {
+            foreach(GameObject objectToDelete in blockList) {
+                if(objectToDelete.GetComponent<GameBlock>().catchPlayer == null) {
+                    deleteBlock(objectToDelete);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void deleteBlock(GameObject block) {
+        blockList.Remove(block);
+        Destroy(block);
+    }
+
+    public void addBlock(GameObject block) {
+        freeBlock();
+        blockList.Add(block);
+    }
 	
 	// Update is called once per frame
 	void Update () 

@@ -31,7 +31,14 @@ public class GameBlock : MonoBehaviour
 		//
 	}
 
-	public void SetRandomFamily()
+    private void Update() {
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
+        if(screenPosition.y < 0) {
+            GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().deleteBlock(this.gameObject);
+        }
+    }
+
+    public void SetRandomFamily()
 	{
 		_family = (BlockFamily)Random.Range (0f, (int)BlockFamily.Size);
 		SetColor ();

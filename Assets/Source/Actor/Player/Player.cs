@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public void addObject(GameObject releasedObject) {
         if(this.hasObject(releasedObject) == false) {
             this.objectsList.AddLast(releasedObject);
+            GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().blockList.Remove(releasedObject);
             releasedObject.GetComponentInChildren<SpriteRenderer>().color = playerColor;
             //releasedObject.GetComponentInChildren<SpriteRenderer>().material.SetColor("_BlockType", new Color(1, 0, 0));
             //releasedObject.GetComponentInChildren<SpriteRenderer>().material.SetTexture("_BlockAtlas", atlas);
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
     public void removeObject(GameObject releasedObject) {
         if(this.hasObject(releasedObject) == true) {
             this.objectsList.Remove(releasedObject);
+            GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().addBlock(releasedObject);
             releasedObject.GetComponentInChildren<SpriteRenderer>().color = new Color(50f/255f, 50f/255f, 50f/255f);
             releasedObject.transform.position = new Vector3(releasedObject.transform.position.x, releasedObject.transform.position.y, 0.0f);
         }
