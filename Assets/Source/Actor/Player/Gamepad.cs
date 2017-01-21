@@ -80,8 +80,10 @@ public class Gamepad : MonoBehaviour {
         // 2/ Trigger right turn right
         if(state.Triggers.Left > 0 && this.target != null)
         {
+            this.target.transform.localRotation *= Quaternion.Euler(0.0f, 0.0f, turnSpeed);
         } else if(state.Triggers.Right > 0 && this.target != null)
         {
+            this.target.transform.localRotation *= Quaternion.Euler(0.0f, 0.0f, -turnSpeed);
         }
 
         // Make the current object move
