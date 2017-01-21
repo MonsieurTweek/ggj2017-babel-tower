@@ -113,12 +113,6 @@ public class PlayerControl : MonoBehaviour {
         // Drag the element
         if (this.dragging == true)
         {
-            //track mouse position.
-            Vector3 currentScreenSpace = new Vector3(transform.position.x, transform.position.y, this.screenPosition.z);
-
-            //convert screen position to world position with offset changes.
-            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenSpace) + this.offset;
-
             //It will update target gameobject's current postion.
             this.target.transform.position = new Vector3(transform.position.x, transform.position.y, this.screenPosition.z);
         }
