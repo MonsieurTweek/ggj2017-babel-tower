@@ -29,35 +29,45 @@ public class SpawnBlock : MonoBehaviour
 		{
 			blocRandomWeight[i + 1] += blocRandomWeight [i];
 		}
+
+		/*for (int i = 0; i < 5; i++) 
+		{
+			Spawn ();
+		}*/
     }
 
     void FixedUpdate()
     {
         if (spawnActivated == true && _popTimer.isFinished() == true)
         {
-			int random = Random.Range(0, blocRandomWeight[blocRandomWeight.Length -1]);
-			int selectedBloc = 0;
-
-			for (int i = 0; i < blocRandomWeight.Length; i++)
-			{
-				if (selectedBloc < blocRandomWeight[i]) 
-				{
-					selectedBloc = i;
-					break;
-				}
-			}
-
-            Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
-
-			bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
-			bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
-
-            bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
-            _popTimer.SetDuration(popDelay);
-            _popTimer.Start();
-            bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
+			Spawn ();
         }
     }
+
+	private void Spawn()
+	{
+		int random = Random.Range(0, blocRandomWeight[blocRandomWeight.Length -1]);
+		int selectedBloc = 0;
+
+		for (int i = 0; i < blocRandomWeight.Length; i++)
+		{
+			if (selectedBloc < blocRandomWeight[i]) 
+			{
+				selectedBloc = i;
+				break;
+			}
+		}
+
+		Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
+
+		bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
+		bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
+
+		bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
+		_popTimer.SetDuration(popDelay);
+		_popTimer.Start();
+		bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
+	}
 	
 	// Update is called once per frame
 	void Update () 
