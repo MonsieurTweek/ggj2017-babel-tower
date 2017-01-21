@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Game : MonoBehaviour {
 
 	public static Game instance;
+
 	private Timer _Timer = new Timer(0f);
     private int elapsedTime = 0; // in seconds
     public int countdownTime = 120;// in seconds
@@ -13,6 +14,8 @@ public class Game : MonoBehaviour {
     // UI Elements
     public GameObject countdown;
     private Text countdownLabel;
+
+	private DangerEngine _dangerEngine = null;
 
 	public void Awake(){
 		instance = this;
@@ -28,10 +31,14 @@ public class Game : MonoBehaviour {
         countdownLabel.text = formateElapsedTime(countdownTime);
         _Timer.SetDuration(1.0f);
         _Timer.Start();
+
+		_dangerEngine  = new DangerEngine();
     }
 	
 	// Update is called once per frame
 	public void Update () {
+
+        _dangerEngine.Update();
 		
 		if(_Timer.isFinished() == true)
         {

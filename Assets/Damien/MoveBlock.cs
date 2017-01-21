@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BlockFamily
-{
-	Water,
-	Fire,
-	Shock,
-	Size
-}
+
 
 public class MoveBlock : MonoBehaviour 
 {
