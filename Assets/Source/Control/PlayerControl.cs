@@ -88,7 +88,11 @@ public class PlayerControl : MonoBehaviour {
         {
             RaycastHit2D hitInfo;
             this.target = GetTargetObject(out hitInfo);
-            if (this.target != null && this.GetComponent<Player>().hasObject(target) == false)
+            if (
+                this.target != null && 
+                target.CompareTag("GameBlock") == true &&
+                this.GetComponent<Player>().hasObject(target) == false
+               )
             {
                 this.dragging = true;
 
