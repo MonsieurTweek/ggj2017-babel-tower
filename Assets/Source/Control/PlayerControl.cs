@@ -88,10 +88,17 @@ public class PlayerControl : MonoBehaviour {
         {
             RaycastHit2D hitInfo;
             this.target = GetTargetObject(out hitInfo);
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+            bool isOwned = false;
+
+            foreach(Player player in players) {
+                isOwned = isOwned || player.hasObject(target);
+            }
+
             if (
                 this.target != null && 
                 target.CompareTag("GameBlock") == true &&
-                this.GetComponent<Player>().hasObject(target) == false
+                isOwned == false
                )
             {
                 this.dragging = true;
