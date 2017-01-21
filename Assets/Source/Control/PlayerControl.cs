@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
 
-public class Gamepad : MonoBehaviour {
+public class PlayerControl : MonoBehaviour {
 
     // Exposed value to Tweek !
     public float turnSpeed = 5.0f;

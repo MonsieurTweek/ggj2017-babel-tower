@@ -15,25 +15,7 @@ public class ControlManager : MonoBehaviour
 	// Update is called once per frame
 	public void Update ()
 	{
-		if (Input.GetKey("left") == true)
-		{
-			Game.instance.player.MoveLeft();
-		}
 
-		if (Input.GetKey("right") == true)
-		{
-			Game.instance.player.MoveRight();
-		}
-
-		if (Input.GetKey("up") == true)
-		{
-			Game.instance.player.MoveUp();
-		}
-
-		if (Input.GetKey("down") == true)
-		{
-			Game.instance.player.MoveDown();
-		}
 	}
 }
 
