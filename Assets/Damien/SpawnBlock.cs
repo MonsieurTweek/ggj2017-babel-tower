@@ -9,29 +9,43 @@ public class SpawnBlock : MonoBehaviour
 	public float rumbleForce = 0f;
 	public int rumbleCount = 0;
 	public float rumbleFrequency = 0f;
+    private Timer _stateTimer = new Timer(0f);
+
+    public bool popActivated = false;
+    public float popDelay = 5.0f;
 
 
-	List<BlockSave> save = new List<BlockSave>();
+    List<BlockSave> save = new List<BlockSave>();
 
 	// Use this for initialization
 	void Start () 
 	{
-		
-	}
+        _stateTimer.SetDuration(popDelay);
+        _stateTimer.Start();
+    }
 	
 	// Update is called once per frame
 	void Update () 
 	{
+
+        if(popActivated == true && _stateTimer.isFinished() == true)
+        {
+            Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
+            bloc.localPosition = new Vector3(Random.Range(-0.5f, 0.5f) - bloc.localScale.x, 0f, 0f);
+            _stateTimer.SetDuration(popDelay);
+            _stateTimer.Start();
+        }
+
 		if (Input.GetKeyDown (KeyCode.S)) 
 		{
 			Transform bloc = GameObject.Instantiate (blocPrefab[Random.Range(0,blocPrefab.Length)], transform).transform;
 
-			bloc.localPosition		= Vector3.zero;
-			bloc.localEulerAngles	= new Vector3 (0f, 0f, Random.Range (0f, 360f));
-			bloc.localScale			= new Vector3 (Random.Range (1f, 3f), Random.Range (0.6f, 1.2f), 1f);
+			bloc.localPosition		= new Vector3 (Random.Range(-0.5f, 0.5f) - bloc.localScale.x, 0f, 0f);
+            bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
+            bloc.localScale = new Vector3(Random.Range(1f, 3f), Random.Range(0.6f, 1.2f), 1f);
 
 
-			bloc.GetComponent<GameBlock> ().SetRandomFamily ();
+            bloc.GetComponent<GameBlock> ().SetRandomFamily ();
 		}	
 
 		if (Input.GetKeyDown (KeyCode.I))
