@@ -75,7 +75,11 @@
 					_BlockType.b * tex2D(_BlockAtlas, half2(IN.texcoord.x * 0.5, IN.texcoord.y * 0.5 + 0.5)) + // Bottom Left
 					_BlockType.a * tex2D(_BlockAtlas, half2(IN.texcoord.x * 0.5 + 0.5, IN.texcoord.y * 0.5 + 0.5)) // Bottom Right
 				);
-			return c;
+				
+				c += IN.color;
+				c.a = 1;
+
+				return c;
             }
 			ENDCG
         }

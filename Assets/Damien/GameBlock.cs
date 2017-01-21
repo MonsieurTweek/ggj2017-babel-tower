@@ -82,28 +82,28 @@ public class GameBlock : MonoBehaviour
 
 	private void SetColor ()
 	{
-		switch (family) 
-		{
-			case BlockFamily.Wind:
-				_spriteRenderer.color = Color.cyan;
-			break;
+		//switch (family) 
+		//{
+		//	case BlockFamily.Wind:
+		//		_spriteRenderer.color = Color.cyan;
+		//	break;
 
-			case BlockFamily.Tsunami:
-				_spriteRenderer.color = Color.blue;
-			break;
+		//	case BlockFamily.Tsunami:
+		//		_spriteRenderer.color = Color.blue;
+		//	break;
 
-			case BlockFamily.Quake:
-				_spriteRenderer.color = Color.yellow;
-			break;
+		//	case BlockFamily.Quake:
+		//		_spriteRenderer.color = Color.yellow;
+		//	break;
 
-			case BlockFamily.Cosmos:
-				_spriteRenderer.color = Color.green;
-			break;
+		//	case BlockFamily.Cosmos:
+		//		_spriteRenderer.color = Color.green;
+		//	break;
 
-			default:
-				_spriteRenderer.color = Color.white;
-			break;
-		}
+		//	default:
+		//		_spriteRenderer.color = Color.white;
+		//	break;
+		//}
 	}
 
 	public void BecamePhysics()
@@ -212,7 +212,7 @@ public class GameBlock : MonoBehaviour
 	public void Attach(GameBlock root)
 	{
 		_isAttached = true;
-		_spriteRenderer.color = Color.magenta;
+		//_spriteRenderer.color = Color.magenta;
 	}
 
 	public void Dettach()
