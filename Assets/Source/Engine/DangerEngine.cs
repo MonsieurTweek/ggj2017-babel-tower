@@ -56,7 +56,7 @@ public class DangerEngine
 			_dangerTimer.SetDuration (UnityEngine.Random.Range (10, 15));
 			_dangerTimer.Start ();
 
-			//Debug.Log ("Danger stop");
+			Debug.Log ("Danger stop");
 		}
 		if (_currentState == STATE.WARNING) 
 		{
@@ -77,25 +77,28 @@ public class DangerEngine
 
 	private void GetNewDanger()
 	{
-
 		_blockFamily = (BlockFamily)UnityEngine.Random.Range (1, (int)BlockFamily.Size);
 
-		//Debug.Log ("Launch danger in 10 sec " + _blockFamily.ToString ());
+		Debug.Log ("Launch danger in 10 sec " + _blockFamily.ToString ());
 	}
 
 	private void LaunchDanger()
 	{
-		//Debug.Log ("Launch danger " + _blockFamily.ToString ());
+		Debug.Log ("Launch danger " + _blockFamily.ToString ());
 
 		switch (_blockFamily) 
 		{
 		case BlockFamily.Wind:
+			Game.instance.windEffect.LaunchEffect ();
 			break;
 		case BlockFamily.Tsunami:
+			Game.instance.tsunamiEffect.LaunchEffect ();
 			break;
 		case BlockFamily.Quake:
+			Game.instance.quakeEffect.LaunchEffect ();
 			break;
 		case BlockFamily.Cosmos:
+			Game.instance.alienEffect.LaunchEffect ();
 			break;
 		}
 	}
