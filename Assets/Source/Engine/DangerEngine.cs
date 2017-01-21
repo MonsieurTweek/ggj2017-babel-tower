@@ -89,13 +89,13 @@ public class DangerEngine
 
 		switch (_blockFamily) 
 		{
-		case BlockFamily.Fire:
+		case BlockFamily.Wind:
 			break;
-		case BlockFamily.Shock:
+		case BlockFamily.Tsunami:
 			break;
-		case BlockFamily.Water:
+		case BlockFamily.Quake:
 			break;
-		default:
+		case BlockFamily.Cosmos:
 			break;
 		}
 	}
