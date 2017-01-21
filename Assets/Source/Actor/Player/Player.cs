@@ -35,8 +35,6 @@ public class Player : MonoBehaviour
             this.objectsList.AddLast(releasedObject);
             GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().blockList.Remove(releasedObject);
             releasedObject.GetComponentInChildren<SpriteRenderer>().color = playerColor;
-            //releasedObject.GetComponentInChildren<SpriteRenderer>().material.SetColor("_BlockType", new Color(1, 0, 0));
-            //releasedObject.GetComponentInChildren<SpriteRenderer>().material.SetTexture("_BlockAtlas", atlas);
         }
 
         this.updateTowerHeight();

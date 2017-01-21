@@ -19,6 +19,8 @@ public class GameBlock : MonoBehaviour
 	public  bool            isAttached		{ get { return _isAttached; } }
     public Player catchPlayer;
 
+    public Texture2D atlas;
+
     void Awake ()
 	{
 		_spriteRenderer 	= gameObject.GetComponent<SpriteRenderer> ();
@@ -40,11 +42,35 @@ public class GameBlock : MonoBehaviour
             }
             GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().deleteBlock(this.gameObject);
         }
+
+        Color color = new Color(0f, 0f, 0f, 0f);
+        switch(_family)
+        {
+            case BlockFamily.Cosmos:
+                color = new Color(1f, 0f, 0f, 0f);
+                break;
+
+            case BlockFamily.Tsunami:
+                color = new Color(0f, 1f, 0f, 0f);
+                break;
+
+            case BlockFamily.Wind:
+                color = new Color(0f, 0f, 1f, 0f);
+                break;
+
+            case BlockFamily.Quake:
+                color = new Color(0f, 0f, 0f, 1f);
+                break;
+
+        }
+        _spriteRenderer.material.SetColor("_BlockType", color);
+        _spriteRenderer.material.SetTexture("_BlockAtlas", atlas);
     }
 
     public void SetRandomFamily()
 	{
-		_family = (BlockFamily)Random.Range (0f, (int)BlockFamily.Size);
+		_family = (BlockFamily)Random.Range (1, (int)BlockFamily.Size);
+        Debug.Log(_family);
 		SetColor ();
 	}
 
