@@ -29,6 +29,7 @@ public class SpawnBlock : MonoBehaviour
         if (popActivated == true && _popTimer.isFinished() == true)
         {
             Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
+            bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
             _popTimer.SetDuration(popDelay);
             _popTimer.Start();
         }
