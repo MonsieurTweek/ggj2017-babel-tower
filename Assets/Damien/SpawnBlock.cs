@@ -9,7 +9,7 @@ public class SpawnBlock : MonoBehaviour
 	public float rumbleForce = 0f;
 	public int rumbleCount = 0;
 	public float rumbleFrequency = 0f;
-    private Timer _stateTimer = new Timer(0f);
+    private Timer _popTimer = new Timer(0f);
 
     public bool popActivated = false;
     public float popDelay = 5.0f;
@@ -20,21 +20,23 @@ public class SpawnBlock : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-        _stateTimer.SetDuration(popDelay);
-        _stateTimer.Start();
+        _popTimer.SetDuration(popDelay);
+        _popTimer.Start();
+    }
+
+    void FixedUpdate()
+    {
+        if (popActivated == true && _popTimer.isFinished() == true)
+        {
+            Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
+            _popTimer.SetDuration(popDelay);
+            _popTimer.Start();
+        }
     }
 	
 	// Update is called once per frame
 	void Update () 
 	{
-
-        if(popActivated == true && _stateTimer.isFinished() == true)
-        {
-            Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
-            bloc.localPosition = new Vector3(Random.Range(-0.5f, 0.5f) - bloc.localScale.x, 0f, 0f);
-            _stateTimer.SetDuration(popDelay);
-            _stateTimer.Start();
-        }
 
 		if (Input.GetKeyDown (KeyCode.S)) 
 		{
