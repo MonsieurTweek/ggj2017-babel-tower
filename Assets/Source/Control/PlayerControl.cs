@@ -67,7 +67,21 @@ public class PlayerControl : MonoBehaviour {
         }
 
         // Make the current object move
-        transform.position += new Vector3(state.ThumbSticks.Left.X * moveSpeed * Time.deltaTime, state.ThumbSticks.Left.Y * moveSpeed * Time.deltaTime);
+        if(Mathf.Abs(state.ThumbSticks.Left.X) > 0 || Mathf.Abs(state.ThumbSticks.Left.Y) > 0)
+        {
+            Vector3 movement = new Vector3(state.ThumbSticks.Left.X * moveSpeed * Time.deltaTime, state.ThumbSticks.Left.Y * moveSpeed * Time.deltaTime);
+            Vector3 newPositionInWorld = transform.position + movement;
+            Vector3 newPositionInScreen = Camera.main.WorldToScreenPoint(transform.position + movement);
+            if (newPositionInScreen.x < 0 || newPositionInScreen.x > Screen.width)
+            {
+                movement.x = 0;
+            }
+            if (newPositionInScreen.y < 0 || newPositionInScreen.y > Screen.height)
+            {
+                movement.y = 0;
+            }
+            transform.position += movement;
+        }
 
         // Grab an element
         if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
