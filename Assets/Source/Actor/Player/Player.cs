@@ -81,7 +81,13 @@ public class Player : MonoBehaviour
 
     private void updateScore()
     {
-        score.text = (towerHeight + 2.5f).ToString("F1") + "m";
+        if(towerHeight + 2.5f > 0)
+        {
+            score.text = (towerHeight + 2.5f).ToString("F1") + "m";
+        } else
+        {
+            score.text = "0.0m";
+        }
     }
 
 }
