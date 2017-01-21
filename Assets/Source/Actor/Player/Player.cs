@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using XInputDotNetPure;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class Player : MonoBehaviour
     
     private LinkedList<GameObject> objectsList;
     public float towerHeight;
+
+    // UI Score
+    public Text score;
 
     // Use this for initialization
     public void Start ()
@@ -30,6 +34,8 @@ public class Player : MonoBehaviour
         if(this.hasObject(releasedObject) == false) {
             this.objectsList.AddLast(releasedObject);
             releasedObject.GetComponentInChildren<SpriteRenderer>().color = playerColor;
+            //releasedObject.GetComponentInChildren<SpriteRenderer>().material.SetColor("_BlockType", new Color(1, 0, 0));
+            //releasedObject.GetComponentInChildren<SpriteRenderer>().material.SetTexture("_BlockAtlas", atlas);
         }
 
         this.updateTowerHeight();
@@ -47,17 +53,18 @@ public class Player : MonoBehaviour
             releasedObject.GetComponentInChildren<SpriteRenderer>().color = new Color(50f/255f, 50f/255f, 50f/255f);
             releasedObject.transform.position = new Vector3(releasedObject.transform.position.x, releasedObject.transform.position.y, 0.0f);
         }
+        this.updateTowerHeight();
     }
 
     private void updateTowerHeight() {
 
-        float maxFound = float.NaN;
+        float maxFound = -2.5f;
 
         foreach(GameObject ownedObject in this.objectsList) {
             PolygonCollider2D collider = ownedObject.GetComponent<PolygonCollider2D>();
             for(int i = 0; i < collider.points.Length; i++) {
                 
-                if(maxFound.Equals(float.NaN)) {
+                if(maxFound.Equals(-2.5f)) {
                     maxFound = collider.transform.TransformPoint(collider.points[i]).y;
                 } else if(maxFound < collider.transform.TransformPoint(collider.points[i]).y) {
                     maxFound = collider.transform.TransformPoint(collider.points[i]).y;
@@ -66,6 +73,13 @@ public class Player : MonoBehaviour
         }
 
         this.towerHeight = maxFound;
+
+        updateScore();
+    }
+
+    private void updateScore()
+    {
+        score.text = (towerHeight + 2.5f).ToString("F1") + "m";
     }
 
 }
