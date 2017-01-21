@@ -14,6 +14,7 @@ public class SpawnBlock : MonoBehaviour
 
     public bool spawnActivated = false;
     public float popDelay = 5.0f;
+	public float ratioSpecial = 0f;
 
 	public static int BLOCK_INDEX = 0;
 	public static int SPAWN_AT_START = 5;
@@ -64,7 +65,18 @@ public class SpawnBlock : MonoBehaviour
 		Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
 
 		bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
-		bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
+
+		if (bloc.gameObject.name.StartsWith ("Block") == false) 
+		{
+			bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
+		}
+		else
+		{
+			bloc.localScale = new Vector3(1f, 1f, 1f);
+		}
+			
+			
+
 
 		if (position != -1) 
 		{
@@ -78,6 +90,12 @@ public class SpawnBlock : MonoBehaviour
 		_popTimer.SetDuration(popDelay);
 		_popTimer.Start();
 		bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
+
+		if (Random.Range (0f, 1f) < ratioSpecial)
+		{
+			bloc.GetComponent<GameBlock> ().SetRandomFamily ();
+		}
+
 	}
 	
 	// Update is called once per frame
