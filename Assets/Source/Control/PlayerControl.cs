@@ -91,7 +91,7 @@ public class PlayerControl : MonoBehaviour {
         } else if(this.dragging == true && prevState.Buttons.A == ButtonState.Released)
         {
             this.dragging = false;
-            GetComponent<Player>().addObject(target);
+
             this.enablePhysics(target);
             this.target = null;
         }
@@ -108,6 +108,7 @@ public class PlayerControl : MonoBehaviour {
     private void disablePhysics(GameObject target) {
         target.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         target.GetComponent<Collider2D>().isTrigger = true;
+        target.GetComponent<GameBlock>().catchPlayer = this.GetComponent<Player>();
     }
 
     private void enablePhysics(GameObject target) {

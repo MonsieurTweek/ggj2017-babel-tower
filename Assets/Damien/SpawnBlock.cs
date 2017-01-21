@@ -33,6 +33,7 @@ public class SpawnBlock : MonoBehaviour
             bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
             _popTimer.SetDuration(popDelay);
             _popTimer.Start();
+            bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
         }
     }
 	

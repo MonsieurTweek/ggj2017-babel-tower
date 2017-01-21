@@ -17,8 +17,9 @@ public class GameBlock : MonoBehaviour
 	public  SpriteRenderer	spriteRenderer	{ get { return _spriteRenderer; } }
 	public  BlockFamily		family			{ get { return _family; } }
 	public  bool            isAttached		{ get { return _isAttached; } }
+    public Player catchPlayer;
 
-	void Awake ()
+    void Awake ()
 	{
 		_spriteRenderer 	= gameObject.GetComponent<SpriteRenderer> ();
 		_rigidBody2D		= gameObject.GetComponent<Rigidbody2D> ();
@@ -78,14 +79,39 @@ public class GameBlock : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.CompareTag ("GameBlock") == true) 
-		{
-			GameBlock block = collision.gameObject.GetComponent<GameBlock> ();
+        CheckNearObject(collision);
 
-			if (_nearBlocks.Contains(block) == false)
-				_nearBlocks.Add (block);
-		}
+        if(this.catchPlayer == null) {
+            return;
+        }
+
+        if (collision.gameObject.CompareTag ("GameBlock") == true) 
+		{
+            if(this.catchPlayer.hasObject(collision.gameObject)) {
+                this.catchPlayer.addObject(this.gameObject);
+            } else {
+                this.catchPlayer.removeObject(this.gameObject);
+            }
+               
+            this.catchPlayer = null;
+
+		} else if(collision.gameObject.CompareTag("Ground") == true) {
+            this.catchPlayer.removeObject(this.gameObject);
+            this.catchPlayer = null;
+        } else {
+            this.catchPlayer.addObject(this.gameObject);
+            this.catchPlayer = null;
+        }
 	}
+
+    void CheckNearObject (Collision2D collision) {
+        if(collision.gameObject.CompareTag("GameBlock") == true) {
+            GameBlock block = collision.gameObject.GetComponent<GameBlock>();
+
+            if(_nearBlocks.Contains(block) == false)
+                _nearBlocks.Add(block);
+        }
+        }
 
 	void OnCollisionExit2D(Collision2D collision)
 	{
@@ -97,7 +123,20 @@ public class GameBlock : MonoBehaviour
 		}
 	}
 
-	public void JoinBlocks()
+    private void addPlayers(Player[] players) {
+        if(this.transform.position.x < 0 && players[1].hasObject(this.gameObject) == false) {
+            players[0].addObject(this.gameObject);
+        } else if(players[0].hasObject(this.gameObject) == false) {
+            players[1].addObject(this.gameObject);
+        }
+    }
+
+    private void removePlayers(Player[] players) {
+        players[0].removeObject(this.gameObject);
+        players[1].removeObject(this.gameObject);
+    }
+
+    public void JoinBlocks()
 	{
 		foreach (GameBlock near in _nearBlocks) 
 		{
