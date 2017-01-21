@@ -14,6 +14,11 @@ public class DangerWarning : MonoBehaviour {
 
 	public float loopDuration = 0f;
 
+	public Sprite windSprite;
+	public Sprite tsunamiSprite;
+	public Sprite alienSprite;
+	public Sprite quakeSprite;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -29,6 +34,24 @@ public class DangerWarning : MonoBehaviour {
 
 		_loopTimer.SetDuration (loopDuration);
 		_loopTimer.Start ();
+
+		switch (blocFamily) 
+		{
+		case BlockFamily.Cosmos:
+			image.sprite = alienSprite;
+			break;
+		case BlockFamily.Tsunami:
+			image.sprite = tsunamiSprite;
+			break;
+		case BlockFamily.Wind:
+			image.sprite = windSprite;
+			break;
+		case BlockFamily.Quake:
+			image.sprite = quakeSprite;
+			break;
+		default:
+			break;
+		}
 	}
 
 	public void Hide()
