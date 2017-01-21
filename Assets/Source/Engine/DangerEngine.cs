@@ -78,7 +78,7 @@ public class DangerEngine
 	private void GetNewDanger()
 	{
 
-		_blockFamily = (BlockFamily)UnityEngine.Random.Range (0f, (int)BlockFamily.Size);
+		_blockFamily = (BlockFamily)UnityEngine.Random.Range (1, (int)BlockFamily.Size);
 
 		//Debug.Log ("Launch danger in 10 sec " + _blockFamily.ToString ());
 	}

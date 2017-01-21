@@ -106,6 +106,8 @@ public class SpawnBlock : MonoBehaviour
 			GameObject gameBlockObject	= GameObject.Instantiate (blocPrefab[0]);
 			GameBlock gameBlock			= gameBlockObject.GetComponent<GameBlock> ();
 
+			gameBlockObject.name = "block_" + (++BLOCK_INDEX).ToString ("0000");
+
 			gameBlockObject.GetComponent<SpriteRenderer> ().sprite = blockSave.sprite;
 
 			gameBlock.SetFamily( blockSave.family);

@@ -7,7 +7,7 @@ public class PlayerControl : MonoBehaviour {
 
     // Exposed value to Tweek !
     public float turnSpeed = 5.0f;
-    public float moveSpeed = 50.0f;
+    public float moveSpeed = 15.0f;
 
     // Drag&Drop
     private bool dragging = false;
@@ -22,9 +22,6 @@ public class PlayerControl : MonoBehaviour {
     private bool playerIndexSet = false;
     public GamePadState state;
     public GamePadState prevState;
-
-    // Sprite renderer
-    private SpriteRenderer sprite;
 
     private GameObject GetTargetObject(out RaycastHit2D hit)
     {
@@ -42,7 +39,6 @@ public class PlayerControl : MonoBehaviour {
     void Start () {
 
         playerIndex = GetComponent<Player>().playerIndex;
-        sprite = GetComponent<SpriteRenderer>();
 		
 	}
 	
