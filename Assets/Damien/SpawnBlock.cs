@@ -16,6 +16,9 @@ public class SpawnBlock : MonoBehaviour
     public float popDelay = 5.0f;
 
 	public static int BLOCK_INDEX = 0;
+	public static int SPAWN_AT_START = 5;
+	public static float MIN_X_SPAWN = -7f;
+	public static float MAX_X_SPAWN = 7f;
 
     List<BlockSave> save = new List<BlockSave>();
 
@@ -30,10 +33,10 @@ public class SpawnBlock : MonoBehaviour
 			blocRandomWeight[i + 1] += blocRandomWeight [i];
 		}
 
-		/*for (int i = 0; i < 5; i++) 
+		for (int i = 0; i < SPAWN_AT_START; i++) 
 		{
-			Spawn ();
-		}*/
+			Spawn (i);
+		}
     }
 
     void FixedUpdate()
@@ -44,7 +47,7 @@ public class SpawnBlock : MonoBehaviour
         }
     }
 
-	private void Spawn()
+	private void Spawn(int position = -1)
 	{
 		int random = Random.Range(0, blocRandomWeight[blocRandomWeight.Length -1]);
 		int selectedBloc = 0;
@@ -63,7 +66,15 @@ public class SpawnBlock : MonoBehaviour
 		bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
 		bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
 
-		bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
+		if (position != -1) 
+		{
+			bloc.localPosition = new Vector3(MAX_X_SPAWN * 2f * (((float)position) / (SPAWN_AT_START - 1)) + MIN_X_SPAWN, 0f, 0f);
+		} 
+			else 
+		{
+			bloc.localPosition = new Vector3(Random.Range(MIN_X_SPAWN, MAX_X_SPAWN), 0f, 0f);
+		}
+
 		_popTimer.SetDuration(popDelay);
 		_popTimer.Start();
 		bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
