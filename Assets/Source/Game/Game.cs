@@ -7,6 +7,7 @@ public class Game : MonoBehaviour {
 
 	public static Game instance;
 	private Timer _stateTimer = new Timer(0f);
+	private DangerEngine _dangerEngine = null;
 
 	public void Awake(){
 		instance = this;
@@ -20,11 +21,15 @@ public class Game : MonoBehaviour {
 	public void Start () {
         _stateTimer.SetDuration(10.0f);
         _stateTimer.Start();
+
+		_dangerEngine  = new DangerEngine();
     }
 	
 	// Update is called once per frame
 	public void Update () {
-		
+
+		_dangerEngine.Update ();
+
 		if(_stateTimer.isFinished() == true)
 		{
             Debug.Log("GameOver");
