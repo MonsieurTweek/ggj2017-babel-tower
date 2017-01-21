@@ -84,23 +84,17 @@ public class PlayerControl : MonoBehaviour {
         }
 
         // Grab an element
-        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
-        {
+        if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed) {
             RaycastHit2D hitInfo;
             this.target = GetTargetObject(out hitInfo);
-            Player[] players = GameObject.FindObjectsOfType<Player>();
-            bool isOwned = false;
 
-            foreach(Player player in players) {
-                isOwned = isOwned || player.hasObject(target);
-            }
 
-            if (
-                this.target != null && 
+            if(
+                this.target != null &&
                 target.CompareTag("GameBlock") == true &&
-                isOwned == false
-               )
-            {
+                isOwned(target) == false &&
+                target.GetComponent<GameBlock>().catchPlayer == null
+               ) {
                 this.dragging = true;
 
                 //Convert world position to screen position.
@@ -109,7 +103,12 @@ public class PlayerControl : MonoBehaviour {
 
                 this.disablePhysics(target);
             }
-        } else if(this.dragging == true && prevState.Buttons.A == ButtonState.Released)
+        } else if(
+            this.dragging == true &&
+            prevState.Buttons.A == ButtonState.Released &&
+            isOwned(target) == false &&
+            target.GetComponent<GameBlock>().catchPlayer.Equals(GetComponent<Player>()) == true
+        )
         {
             this.dragging = false;
 
@@ -130,6 +129,17 @@ public class PlayerControl : MonoBehaviour {
             this.target.transform.position = new Vector3(transform.position.x, transform.position.y, 0.0f);
         }
 
+    }
+
+    private bool isOwned(GameObject target) {
+        Player[] players = GameObject.FindObjectsOfType<Player>();
+        bool isOwned = false;
+
+        foreach(Player player in players) {
+            isOwned = isOwned || player.hasObject(target);
+        }
+
+        return isOwned;
     }
 
     private void disablePhysics(GameObject target) {

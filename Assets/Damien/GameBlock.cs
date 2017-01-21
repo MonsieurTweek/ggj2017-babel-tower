@@ -125,36 +125,41 @@ public class GameBlock : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
 	{
         CheckNearObject(collision);
+        checkCollision(collision);
+    }
 
+    private void OnCollisionStay2D(Collision2D collision) {
+        checkCollision(collision);
+    }
+
+    private void checkCollision(Collision2D collision) {
         // Si on est sous le seuil des bases, le bloc redevient neutre
-        if (this.gameObject.transform.position.y < -2.25f) { // -2.5 de seuil + une sércurité
+        if(this.gameObject.transform.position.y < -2.25f) { // -2.5 de seuil + une sércurité
             Player[] players = GameObject.FindObjectsOfType<Player>();
-            for (int i = 0; i < players.Length; i++)
-            {
+            for(int i = 0; i < players.Length; i++) {
                 players[i].removeObject(this.gameObject);
             }
             this.catchPlayer = null;
         }
 
-        if (this.catchPlayer == null) {
+        if(this.catchPlayer == null) {
             return;
         }
 
-        if (collision.gameObject.CompareTag ("GameBlock") == true) 
-		{
+        if(collision.gameObject.CompareTag("GameBlock") == true) {
             if(this.catchPlayer.hasObject(collision.gameObject)) {
                 this.catchPlayer.addObject(this.gameObject);
             } else {
                 this.catchPlayer.removeObject(this.gameObject);
             }
-               
+
             this.catchPlayer = null;
 
-		}  else {
+        } else {
             this.catchPlayer.addObject(this.gameObject);
             this.catchPlayer = null;
         }
-	}
+    }
 
     void CheckNearObject (Collision2D collision) {
         if(collision.gameObject.CompareTag("GameBlock") == true) {
