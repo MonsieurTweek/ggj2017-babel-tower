@@ -6,7 +6,7 @@ using XInputDotNetPure;
 public class Gamepad : MonoBehaviour {
 
     // Exposed value to Tweek !
-    public float turnSpeed = 100.0f;
+    public float turnSpeed = 5.0f;
     public float moveSpeed = 50.0f;
 
     // Drag&Drop
@@ -80,10 +80,8 @@ public class Gamepad : MonoBehaviour {
         // 2/ Trigger right turn right
         if(state.Triggers.Left > 0 && this.target != null)
         {
-            this.target.transform.localRotation *= Quaternion.Euler(0.0f, 0.0f, state.Triggers.Left * turnSpeed * Time.deltaTime);
         } else if(state.Triggers.Right > 0 && this.target != null)
         {
-            this.target.transform.localRotation *= Quaternion.Euler(0.0f, 0.0f, -1 * state.Triggers.Right * turnSpeed * Time.deltaTime);
         }
 
         // Make the current object move
