@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TopDetection : MonoBehaviour {
 
+    public Game currentGame;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -16,7 +18,7 @@ public class TopDetection : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision) {
         if(collision.GetComponent<Rigidbody2D>().velocity == Vector2.zero) {
-            Debug.Log("GAME OVER");
+            currentGame.triggerGameOver();
         }
     }
 

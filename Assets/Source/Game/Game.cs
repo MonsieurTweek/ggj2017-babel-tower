@@ -72,10 +72,16 @@ public class Game : MonoBehaviour {
         return (minutes > 9 ? minutes.ToString() : "0" + minutes.ToString()) + ":" + (seconds > 9 ? seconds.ToString() : "0" + seconds.ToString());
     }
 
-    private void triggerGameOver()
+    public void triggerGameOver()
     {
-        // TODO : find the actual winner
-        Player winner = players[Random.Range(0, players.Length)];
+        Player winner = players[0];
+        for(int i = 0; i < players.Length; i++)
+        {
+            if(winner.towerHeight < players[i].towerHeight)
+            {
+                winner = players[i];
+            }
+        }
 
         // Disable spawn
         spawnEngine.spawnActivated = false;

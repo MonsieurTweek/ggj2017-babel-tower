@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public string playerName;
     
     private LinkedList<GameObject> objectsList;
-    private float towerHeight;
+    public float towerHeight;
 
     // Use this for initialization
     public void Start ()
