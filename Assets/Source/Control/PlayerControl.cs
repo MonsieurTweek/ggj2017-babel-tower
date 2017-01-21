@@ -95,6 +95,7 @@ public class PlayerControl : MonoBehaviour {
         {
             sprite.material.SetColor("_Color", color);
             this.dragging = false;
+            GetComponent<Player>().addObject(target);
             this.enablePhysics(target);
             this.target = null;
         }
