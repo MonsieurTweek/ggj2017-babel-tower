@@ -104,7 +104,7 @@ public class SpawnBlock : MonoBehaviour
 	{
 		foreach (GameBlock block in blocks) 
 		{
-			if (block._blockFamily == BlockFamily.Shock && block.attach == true)
+			if (block._blockFamily == BlockFamily.Shock || block.attach == true)
 				continue;
 					
 			Vector2 velocity = block.GetComponent<Rigidbody2D> ().velocity;
