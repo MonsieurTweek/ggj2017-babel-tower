@@ -29,6 +29,7 @@ public class MoveBlock : MonoBehaviour
 			gameObject.GetComponent<PolygonCollider2D> ().isTrigger = false;
 			gameObject.AddComponent<Rigidbody2D> ();
 
+
 			GameObject.Destroy (this);
 		}
 	}

@@ -8,6 +8,12 @@ public class GameBlock : MonoBehaviour
 
 	private SpriteRenderer _spriteRenderer = null;
 
+	public PhysicsMaterial2D physicMaterial2d;
+
+	public List<GameBlock> nearBlock = new List<GameBlock>();
+
+	public bool attach = false;
+
 	void Awake ()
 	{
 		_spriteRenderer = GetComponent<SpriteRenderer> ();
@@ -15,10 +21,23 @@ public class GameBlock : MonoBehaviour
 
 	void Start()
 	{
-		_blockFamily = (BlockFamily)Random.Range (0f, (int)BlockFamily.Size);
+	}
 
-		switch (_blockFamily) 
-		{
+	public void SetRandomFamily()
+	{
+		_blockFamily = (BlockFamily)Random.Range (0f, (int)BlockFamily.Size);
+		SetColor ();
+	}
+
+	public void SetFamily (BlockFamily family)
+	{
+		_blockFamily = family;
+		SetColor ();
+	}
+
+	private void SetColor ()
+	{
+		switch (_blockFamily) {
 		case BlockFamily.Fire:
 			_spriteRenderer.color = Color.red;
 			break;
@@ -30,20 +49,45 @@ public class GameBlock : MonoBehaviour
 		case BlockFamily.Shock:
 			_spriteRenderer.color = Color.yellow;
 			break;
-		}
+		}	
 	}
 
 	void OnCollisionEnter2D(Collision2D collison)
-	{			
+	{	
+		
 		GameBlock otherBlock = collison.gameObject.GetComponent<GameBlock> ();
 
-		if (otherBlock != null && otherBlock._blockFamily == _blockFamily)
-			JoinBlock (otherBlock, collison);
+		if (otherBlock != null)
+			nearBlock.Add (otherBlock);
 	}
 
-	void JoinBlock(GameBlock block, Collision2D collision)
+	void OnCollisionExit2D(Collision2D collision)
 	{
-		FixedJoint2D joint	= gameObject.AddComponent<FixedJoint2D> ();
-		joint.connectedBody = block.gameObject.GetComponent<Rigidbody2D> ();
+		GameBlock otherBlock = collision.gameObject.GetComponent<GameBlock> ();
+
+		if (otherBlock != null)
+			nearBlock.Remove (otherBlock);
+	}
+
+	public void JoinBlocks()
+	{
+		foreach (GameBlock near in nearBlock) 
+		{
+			FixedJoint2D joint	= gameObject.AddComponent<FixedJoint2D> ();
+			joint.connectedBody = near.gameObject.GetComponent<Rigidbody2D> ();
+			near.attach = true;
+		}
+	}
+
+	public void UnJoinBlock ()
+	{
+		foreach (GameBlock near in nearBlock) 
+		{
+			near.attach = false;
+		}
+
+		FixedJoint2D[] allJoint = transform.GetComponentsInChildren<FixedJoint2D> ();
+		foreach (FixedJoint2D joint in allJoint)
+			GameObject.Destroy (joint);
 	}
 }
