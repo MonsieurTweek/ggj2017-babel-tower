@@ -49,5 +49,10 @@ public class Timer
 		}
 		return false;
 	}
+
+	public float GetCurrentTime()
+	{
+		return Time.time - _time;
+	}
 }
 
