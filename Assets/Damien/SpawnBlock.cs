@@ -14,6 +14,7 @@ public class SpawnBlock : MonoBehaviour
     public bool spawnActivated = false;
     public float popDelay = 5.0f;
 
+	public static int BLOCK_INDEX = 0;
 
     List<BlockSave> save = new List<BlockSave>();
 
@@ -47,19 +48,19 @@ public class SpawnBlock : MonoBehaviour
             bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
             bloc.localScale = new Vector3(Random.Range(1f, 3f), Random.Range(0.6f, 1.2f), 1f);
 
+			bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString ("0000");
 
             bloc.GetComponent<GameBlock> ().SetRandomFamily ();
 		}	
 
 		if (Input.GetKeyDown (KeyCode.I))
-			DestroyBlock (BlockFamily.Fire);
+			DestroyBlock (BlockFamily.Cosmos);
 		else if (Input.GetKeyDown (KeyCode.O))
-			DestroyBlock (BlockFamily.Shock);
+			DestroyBlock (BlockFamily.Quake);
 		else if (Input.GetKeyDown (KeyCode.P))
-			DestroyBlock (BlockFamily.Water);		
-
-		if (Input.GetKeyDown (KeyCode.M))
-			RumbleBlock ();
+			DestroyBlock (BlockFamily.Tsunami);		
+		else if (Input.GetKeyDown(KeyCode.U))
+			DestroyBlock(BlockFamily.Wind);
 
 		if (Input.GetKeyDown (KeyCode.C))
 			CopyBlocks ();
@@ -75,63 +76,8 @@ public class SpawnBlock : MonoBehaviour
 		GameBlock[] blocks = GameObject.FindObjectsOfType<GameBlock> ();
 
 		foreach (GameBlock block in blocks) 
-			if (block._blockFamily == family)
+			if (block.family == family)
 				GameObject.Destroy (block.gameObject);		
-	}
-
-	void RumbleBlock ()
-	{
-		Debug.Log ("RUMBLE");
-		StartCoroutine (RumbleBlockCoroutine ());
-	}
-
-	IEnumerator RumbleBlockCoroutine()
-	{
-		GameBlock[] blocks = GameObject.FindObjectsOfType<GameBlock> ();
-
-		foreach (GameBlock block in blocks) 
-		{
-			if (block._blockFamily == BlockFamily.Shock) 
-			{
-				block.GetComponent<Rigidbody2D> ().mass = 10f;	
-				block.JoinBlocks();
-			}
-		}	
-
-		for (int i = 0; i < rumbleCount; i++) 
-		{
-			RumbleRandom (blocks, new Vector2((i%2==0f?1f:-1f), 0f));
-
-			yield return new WaitForSeconds (rumbleFrequency);
-		}
-
-		yield return new WaitForSeconds(0.5f);
-
-		foreach (GameBlock block in blocks) 
-		{
-			if (block._blockFamily == BlockFamily.Shock) 
-			{
-				block.GetComponent<Rigidbody2D> ().mass = 1f;
-				block.UnJoinBlock();
-			}
-		}
-	}
-
-	void RumbleRandom(GameBlock[] blocks, Vector2 dir)
-	{
-		foreach (GameBlock block in blocks) 
-		{
-			if (block._blockFamily == BlockFamily.Shock || block.attach == true)
-				continue;
-					
-			Vector2 velocity = block.GetComponent<Rigidbody2D> ().velocity;
-			velocity.x = 0f;
-			block.GetComponent<Rigidbody2D> ().velocity = velocity;
-
-			block.GetComponent<Rigidbody2D> ().AddForce (
-				dir * rumbleForce, ForceMode2D.Impulse
-			);
-		}	
 	}
 
 	void CopyBlocks ()
@@ -156,8 +102,8 @@ public class SpawnBlock : MonoBehaviour
 
 		foreach (BlockSave blockSave in save) 
 		{
-			GameObject gameBlockObject = GameObject.Instantiate (blocPrefab[0]);
-			GameBlock gameBlock = gameBlockObject.GetComponent<GameBlock> ();
+			GameObject gameBlockObject	= GameObject.Instantiate (blocPrefab[0]);
+			GameBlock gameBlock			= gameBlockObject.GetComponent<GameBlock> ();
 
 			gameBlockObject.GetComponent<SpriteRenderer> ().sprite = blockSave.sprite;
 
@@ -179,8 +125,8 @@ public class SpawnBlock : MonoBehaviour
 		{
 			pastBlock.gameObject.AddComponent<PolygonCollider2D> ();
 
-			pastBlock.gameObject.AddComponent<Rigidbody2D> ();
-			pastBlock.gameObject.GetComponent<PolygonCollider2D> ().isTrigger = false;
+			pastBlock.BecamePhysics ();
+
 			pastBlock.gameObject.GetComponent<PolygonCollider2D> ().sharedMaterial = pastBlock.physicMaterial2d;
 
 			pastBlock.gameObject.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;	
@@ -192,18 +138,18 @@ public class SpawnBlock : MonoBehaviour
 
 public class BlockSave
 {
-	public Sprite sprite;
-	public Vector3 position;
-	public Quaternion rotation;
-	public Vector3 scale;
-	public BlockFamily family;
+	public Sprite		sprite;
+	public Vector3		position;
+	public Quaternion	rotation;
+	public Vector3 		scale;
+	public BlockFamily	family;
 
 	public BlockSave(GameBlock block)
 	{
-		sprite = block.GetComponent<SpriteRenderer> ().sprite;
-		position = block.transform.position;
-		rotation = block.transform.rotation;
-		scale = block.transform.localScale;
-		family = block._blockFamily;
+		sprite		= block.GetComponent<SpriteRenderer> ().sprite;
+		position	= block.transform.position;
+		rotation 	= block.transform.rotation;
+		scale 		= block.transform.localScale;
+		family 		= block.family;
 	}
 }

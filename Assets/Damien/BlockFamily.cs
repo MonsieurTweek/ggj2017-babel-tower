@@ -1,7 +1,9 @@
 ﻿public enum BlockFamily
 {
-	Water,
-	Fire,
-	Shock,
+	None,
+	Wind,
+	Tsunami,
+	Quake,
+	Cosmos,
 	Size
 }

@@ -20,8 +20,7 @@ public class MoveBlock : MonoBehaviour
 
 		if (Input.GetKey (KeyCode.Space)) 
 		{
-			gameObject.GetComponent<PolygonCollider2D> ().isTrigger = false;
-			gameObject.AddComponent<Rigidbody2D> ();
+			gameObject.GetComponent<GameBlock> ().BecamePhysics ();
 
 
 			GameObject.Destroy (this);
