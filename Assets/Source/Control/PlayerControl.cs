@@ -88,11 +88,14 @@ public class PlayerControl : MonoBehaviour {
                 //Convert world position to screen position.
                 this.screenPosition = Camera.main.WorldToScreenPoint(this.target.transform.position);
                 this.offset = target.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(transform.position.x, transform.position.y, this.screenPosition.z));
+
+                this.disablePhysics(target);
             }
         } else if(this.dragging == true && prevState.Buttons.A == ButtonState.Released)
         {
             sprite.material.SetColor("_Color", color);
             this.dragging = false;
+            this.enablePhysics(target);
             this.target = null;
         }
 
@@ -103,5 +106,15 @@ public class PlayerControl : MonoBehaviour {
             this.target.transform.position = new Vector3(transform.position.x, transform.position.y, this.screenPosition.z);
         }
 
+    }
+
+    private void disablePhysics(GameObject target) {
+        target.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        target.GetComponent<Collider2D>().isTrigger = true;
+    }
+
+    private void enablePhysics(GameObject target) {
+        target.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        target.GetComponent<Collider2D>().isTrigger = false;
     }
 }
