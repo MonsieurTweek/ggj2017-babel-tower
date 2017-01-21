@@ -57,10 +57,13 @@ public class DangerEngine
 			_dangerTimer.Start ();
 
 			Debug.Log ("Danger stop");
+
 		}
 		if (_currentState == STATE.WARNING) 
 		{
 			GetNewDanger ();
+
+			Game.instance.dangerWarning.SetDanger (_blockFamily, 10);	
 
 			_dangerTimer.SetDuration (10);
 			_dangerTimer.Start ();
@@ -68,6 +71,8 @@ public class DangerEngine
 		if (_currentState == STATE.IN_PROGRESS) 
 		{
 			LaunchDanger ();
+
+			Game.instance.dangerWarning.Hide ();
 
 			_dangerTimer.SetDuration (3);
 			_dangerTimer.Start ();

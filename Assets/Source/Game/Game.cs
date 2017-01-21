@@ -16,6 +16,7 @@ public class Game : MonoBehaviour {
     public GameObject countdown;
     private Text countdownLabel;
     public GameObject victoryScreen;
+	public DangerWarning dangerWarning;
 
     // Engine
     public SpawnBlock spawnEngine;
