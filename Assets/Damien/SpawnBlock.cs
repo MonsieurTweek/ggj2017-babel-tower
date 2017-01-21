@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnBlock : MonoBehaviour 
 {
 	public GameObject[] blocPrefab = null;
+	public int[] blocRandomWeight = null;
 
 	public float rumbleForce = 0f;
 	public int rumbleCount = 0;
@@ -23,13 +24,34 @@ public class SpawnBlock : MonoBehaviour
 	{
         _popTimer.SetDuration(popDelay);
         _popTimer.Start();
+
+		for (int i = 0; i < blocRandomWeight.Length - 1; i++) 
+		{
+			blocRandomWeight[i + 1] += blocRandomWeight [i];
+		}
     }
 
     void FixedUpdate()
     {
         if (spawnActivated == true && _popTimer.isFinished() == true)
         {
+			int random = Random.Range(0, blocRandomWeight[blocRandomWeight.Length -1]);
+			int selectedBloc = 0;
+
+			for (int i = 0; i < blocRandomWeight.Length; i++)
+			{
+				if (selectedBloc < blocRandomWeight[i]) 
+				{
+					selectedBloc = i;
+					break;
+				}
+			}
+
             Transform bloc = GameObject.Instantiate(blocPrefab[Random.Range(0, blocPrefab.Length)], transform).transform;
+
+			bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
+			bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
+
             bloc.localPosition = new Vector3(Random.Range(-8.5f, 8.5f), 0f, 0f);
             _popTimer.SetDuration(popDelay);
             _popTimer.Start();
