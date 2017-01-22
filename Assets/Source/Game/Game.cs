@@ -15,7 +15,7 @@ public class Game : MonoBehaviour {
     public AnimationCurve animationCurve = null;
 
     // UI Elements
-    public GameObject countdown;
+    public CountdownAnimator countdown;
     private Text countdownLabel;
     public GameObject victoryScreen;
 	public DangerWarning dangerWarning;
@@ -42,7 +42,7 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	public void Start () {
-        countdownLabel = countdown.GetComponent<Text>();
+        countdownLabel = countdown.GetComponentInChildren<Text>();
         countdownLabel.text = formateElapsedTime(countdownTime);
         _Timer.SetDuration(1.0f);
         _Timer.Start();
@@ -62,24 +62,14 @@ public class Game : MonoBehaviour {
             _Timer.SetDuration(1f);
             _Timer.Start();
 
-            //if (countdownTime - elapsedTime < 10f)
-            //{
-            //    if(_HurryUpTimer.isFinished() == true)
-            //    {
-            //        Debug.Log("Hurry Up !");
-            //        _HurryUpTimer.Start();
-            //    }
-            //    countdownLabel.fontSize += (int) animationCurve.Evaluate(_HurryUpTimer.GetCurrentTime());
-            //    Debug.Log(animationCurve.Evaluate(_HurryUpTimer.GetCurrentTime()));
-            //} else if (countdownTime - elapsedTime == 10f)
-            //{
-            //    _HurryUpTimer.SetDuration(1f);
-            //    _HurryUpTimer.Start();
-            //}
-
             countdownLabel.text = formateElapsedTime(countdownTime - elapsedTime);
 
-            if(elapsedTime >= countdownTime)
+            if (countdown.hurryUp == false && countdownTime - elapsedTime < 10f)
+            {
+                countdown.hurryUp = true;
+            }
+
+            if (elapsedTime >= countdownTime)
             {
                 Debug.Log("Game Over : End of time !");
                 triggerGameOver();
