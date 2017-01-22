@@ -8,7 +8,6 @@ public class Menu : MonoBehaviour
 {
     // Public attributes
     public GameObject MenuPanel;
-    public GameObject OptionsPanel;
     public GameObject CreditsPanel;
     public GameObject PlayPanel;
 
@@ -20,7 +19,6 @@ public class Menu : MonoBehaviour
     void Start ()
 	{
         MenuPanel.SetActive(true);
-        OptionsPanel.SetActive(false);
         CreditsPanel.SetActive(false);
         PlayPanel.SetActive(false);
         topButton = GameObject.Find("Play").GetComponent<Button>();
@@ -42,21 +40,9 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void ShowOptionsPanel()
-    {
-        MenuPanel.SetActive(false);
-        OptionsPanel.SetActive(true);
-
-        Button selectedButton = GameObject.Find("Back").GetComponent<Button>();
-        selectedButton.Select();
-
-        topButton = OptionsPanel.GetComponentsInChildren<Button>()[0];
-    }
-
     public void ShowMenuPanel()
     {
         MenuPanel.SetActive(true);
-        OptionsPanel.SetActive(false);
         CreditsPanel.SetActive(false);
 
         Button selectedButton = GameObject.Find("Play").GetComponent<Button>();
