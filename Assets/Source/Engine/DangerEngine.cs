@@ -89,10 +89,19 @@ public class DangerEngine
 
 			_dangerTimer.SetDuration (10);
 			_dangerTimer.Start ();
+
+			AudioManager.instance.alert.Play ();
+			AudioManager.instance.mainMusic.Stop ();
+			AudioManager.instance.mainMusic.PlayDelayed (2.8f);
+			AudioManager.instance.mainMusic.pitch =  1.4f;
 		}
 		if (_currentState == STATE.IN_PROGRESS) 
 		{
 			LaunchDanger ();
+
+			AudioManager.instance.mainMusic.Stop ();
+			AudioManager.instance.mainMusic.PlayDelayed (3f);
+			AudioManager.instance.mainMusic.pitch =  1f;
 
 			Game.instance.dangerWarning.Hide ();
 
@@ -115,15 +124,19 @@ public class DangerEngine
 		{
 		case BlockFamily.Wind:
 			Game.instance.windEffect.LaunchEffect ();
+			AudioManager.instance.wind.Play ();
 			break;
 		case BlockFamily.Tsunami:
 			Game.instance.tsunamiEffect.LaunchEffect ();
+			AudioManager.instance.water.Play ();
 			break;
 		case BlockFamily.Quake:
 			Game.instance.quakeEffect.LaunchEffect ();
+			AudioManager.instance.quake.Play ();
 			break;
 		case BlockFamily.Cosmos:
 			Game.instance.alienEffect.LaunchEffect ();
+			AudioManager.instance.space.Play ();
 			break;
 		}
 	}

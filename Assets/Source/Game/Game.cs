@@ -56,14 +56,12 @@ public class Game : MonoBehaviour {
         _Timer.Start();
 
 		_dangerEngine  = new DangerEngine();
-
-		AudioManager.instance.mainMusic.Play ();
     }
 	
 	// Update is called once per frame
 	public void Update () {
 
-		if (dangerActivated == true)
+		if (dangerActivated == true && _Timer.IsRunning())
         	_dangerEngine.Update();
 		
 		if( _Timer.isFinished() == true)
@@ -101,6 +99,9 @@ public class Game : MonoBehaviour {
     public void triggerGameOver()
     {
         _Timer.Stop();
+
+		AudioManager.instance.mainMusic.Stop ();
+		AudioManager.instance.victory.Play ();
 
         Player winner = players[0];
         for(int i = 0; i < players.Length; i++)

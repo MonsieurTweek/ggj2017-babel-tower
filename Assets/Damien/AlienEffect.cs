@@ -9,7 +9,9 @@ public class AlienEffect : EffectBlock
 
 	private float	_startTime	= 0f;
 
-	protected override IEnumerator EffectSequence ()
+    public Animator feedbackAnimator;
+
+    protected override IEnumerator EffectSequence ()
 	{
 		float		t		= 0f;
 		GameBlock[] blocks	= GameObject.FindObjectsOfType<GameBlock> ();
@@ -20,6 +22,8 @@ public class AlienEffect : EffectBlock
 
 		yield return null;
 
+        feedbackAnimator.enabled = true;
+        feedbackAnimator.Play("FeedbackAnimation", -1, 0f);
         Game.instance.ToggleVibration(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f));
 
         while (t < 1f) 
@@ -47,6 +51,7 @@ public class AlienEffect : EffectBlock
 
 		yield return new WaitForSeconds (0.5f);
 
+        feedbackAnimator.enabled = false;
         Game.instance.ToggleVibration();
 
         DettachBlocks (blocks);

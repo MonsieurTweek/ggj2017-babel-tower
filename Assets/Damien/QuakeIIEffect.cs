@@ -9,8 +9,9 @@ public class QuakeIIEffect : EffectBlock
 	public int		moveNumber	= 0;
 
 	private float	_startTime	= 0f;
+    public Animator feedbackAnimator;
 
-	protected override IEnumerator EffectSequence ()
+    protected override IEnumerator EffectSequence ()
 	{
 		float		t		= 0f;
 		GameBlock[] blocks	= GameObject.FindObjectsOfType<GameBlock> ();
@@ -20,6 +21,8 @@ public class QuakeIIEffect : EffectBlock
 
 		yield return null;
 
+        feedbackAnimator.enabled = true;
+        feedbackAnimator.Play("FeedbackAnimation", -1, 0f);
         Game.instance.ToggleVibration(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f));
 
         Vector2 direction = Vector2.right;
@@ -75,6 +78,8 @@ public class QuakeIIEffect : EffectBlock
 
 		yield return new WaitForSeconds (0.5f);
 
+        feedbackAnimator.Stop();
+        feedbackAnimator.enabled = false;
         Game.instance.ToggleVibration();
 
         DettachBlocks (blocks);

@@ -34,6 +34,7 @@ public class WindEffect : EffectBlock
 
 		yield return new WaitForSeconds(0.5f);
 
+        feedbackAnimator.enabled = false;
         Game.instance.ToggleVibration();
 
         DettachBlocks (blocks);
