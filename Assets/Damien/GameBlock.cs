@@ -203,9 +203,12 @@ public class GameBlock : MonoBehaviour
 	{
 		foreach (GameBlock near in _nearBlocks) 
 		{
-			FixedJoint2D joint	= gameObject.AddComponent<FixedJoint2D> ();
-			joint.connectedBody = near.gameObject.GetComponent<Rigidbody2D> ();
-			near.Attach (this);
+			if (near != null && near.gameObject != null && near.rigidBody2D != null)
+			{
+				FixedJoint2D joint	= gameObject.AddComponent<FixedJoint2D> ();
+				joint.connectedBody = near.gameObject.GetComponent<Rigidbody2D> ();
+				near.Attach (this);
+			}
 		}
 	}
 
