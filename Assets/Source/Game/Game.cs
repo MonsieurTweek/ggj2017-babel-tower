@@ -124,6 +124,7 @@ public class Game : MonoBehaviour {
         victoryLabel.color = winner.playerColor;
         victoryLabel.text = (winner.playerName + " wins").ToUpper();
         victoryScreen.SetActive(true);
+        disableInputs();
         restart();
     }
 
@@ -147,6 +148,12 @@ public class Game : MonoBehaviour {
     public void enableInputs() {
         for(int i = 0; i < players.Length; i++) {
             players[i].GetComponent<PlayerControl>().recordInput = true;
+        }
+    }
+
+    public void disableInputs() {
+        for(int i = 0; i < players.Length; i++) {
+            players[i].GetComponent<PlayerControl>().recordInput = false;
         }
     }
 }
