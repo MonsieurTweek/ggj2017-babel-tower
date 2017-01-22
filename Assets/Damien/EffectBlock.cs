@@ -35,7 +35,7 @@ public abstract class EffectBlock : MonoBehaviour
 	{
 		foreach (GameBlock block in blocks) 
 		{
-			if (block.family == resistantFamily) 
+			if (block != null && block.family == resistantFamily) 
 			{
 				block.GetComponent<Rigidbody2D> ().mass = 1f;
 				block.UnJoinBlock();
