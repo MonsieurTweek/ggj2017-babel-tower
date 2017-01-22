@@ -9,8 +9,10 @@ public class Game : MonoBehaviour {
     public Player[] players;
 
 	private Timer _Timer = new Timer(0f);
-    private int elapsedTime = 0; // in seconds
-    public int countdownTime = 120; // in seconds
+    private Timer _HurryUpTimer = new Timer(0f);
+    private float elapsedTime = 0f; // in seconds
+    public float countdownTime = 120f; // in seconds
+    public AnimationCurve animationCurve = null;
 
     // UI Elements
     public GameObject countdown;
@@ -54,32 +56,46 @@ public class Game : MonoBehaviour {
 		if (dangerActivated == true)
         	_dangerEngine.Update();
 		
-		if(_Timer.isFinished() == true)
+		if( _Timer.isFinished() == true)
         {
-            elapsedTime++;
+            elapsedTime += 1f;
+            _Timer.SetDuration(1f);
+            _Timer.Start();
+
+            //if (countdownTime - elapsedTime < 10f)
+            //{
+            //    if(_HurryUpTimer.isFinished() == true)
+            //    {
+            //        Debug.Log("Hurry Up !");
+            //        _HurryUpTimer.Start();
+            //    }
+            //    countdownLabel.fontSize += (int) animationCurve.Evaluate(_HurryUpTimer.GetCurrentTime());
+            //    Debug.Log(animationCurve.Evaluate(_HurryUpTimer.GetCurrentTime()));
+            //} else if (countdownTime - elapsedTime == 10f)
+            //{
+            //    _HurryUpTimer.SetDuration(1f);
+            //    _HurryUpTimer.Start();
+            //}
+
             countdownLabel.text = formateElapsedTime(countdownTime - elapsedTime);
 
-            if(elapsedTime == countdownTime)
+            if(elapsedTime >= countdownTime)
             {
                 Debug.Log("Game Over : End of time !");
                 triggerGameOver();
-            } else
-            {
-                _Timer.SetDuration(1.0f);
-                _Timer.Start();
             }
         }
 
     }
 
-    private string formateElapsedTime(int seconds)
+    private string formateElapsedTime(float seconds)
     {
         // Minutes
         int minutes = seconds > 59 ? (int) Mathf.Floor(seconds / 60.0f) : 0;
         // Secondes
-        seconds = seconds > 59 ? seconds - minutes * 60 : seconds;
+        seconds = seconds > 59 ? seconds - minutes * 60f : seconds;
         
-        return (minutes > 9 ? minutes.ToString() : "0" + minutes.ToString()) + ":" + (seconds > 9 ? seconds.ToString() : "0" + seconds.ToString());
+        return (minutes > 9 ? minutes.ToString() : "0" + minutes.ToString()) + ":" + (seconds > 9f ? seconds.ToString() : "0" + seconds.ToString());
     }
 
     public void triggerGameOver()

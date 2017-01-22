@@ -8,28 +8,38 @@ public class DangerWarning : MonoBehaviour {
 	public AnimationCurve animationCurve = null;
 
 	private Timer _timer = new Timer(0f);
-	private Timer	_loopTimer = new Timer(0f);
+	private Timer _loopTimer = new Timer(0f);
 
 	public Image image = null;
+    public GameObject go1 = null;
+    public GameObject go2 = null;
 
-	public float loopDuration = 0f;
+    public float loopDuration = 0f;
 
 	public Sprite windSprite;
 	public Sprite tsunamiSprite;
 	public Sprite alienSprite;
 	public Sprite quakeSprite;
 
+    public List<GameObject> arrowGo = new List<GameObject>();
+
 	// Use this for initialization
 	void Start () 
 	{
-		
-	}
+        go1.SetActive(false);
+        go2.SetActive(false);
+        for(int i = 0; i < arrowGo.Count; i++)
+        {
+            arrowGo[i].SetActive(false);
+        }
+    }
 		
 	public void SetDanger(BlockFamily blocFamily, float duration)
 	{
-		image.enabled = true;
+        go1.SetActive(true);
+        go2.SetActive(true);
 
-		_timer.SetDuration (duration);
+        _timer.SetDuration (duration);
 		_timer.Start ();
 
 		_loopTimer.SetDuration (loopDuration);
@@ -39,16 +49,20 @@ public class DangerWarning : MonoBehaviour {
 		{
 		case BlockFamily.Cosmos:
 			image.sprite = alienSprite;
+            arrowGo[0].SetActive(true);
 			break;
 		case BlockFamily.Tsunami:
 			image.sprite = tsunamiSprite;
-			break;
+            arrowGo[1].SetActive(true);
+            break;
 		case BlockFamily.Wind:
 			image.sprite = windSprite;
-			break;
+            arrowGo[3].SetActive(true);
+            break;
 		case BlockFamily.Quake:
 			image.sprite = quakeSprite;
-			break;
+            arrowGo[2].SetActive(true);
+            break;
 		default:
 			break;
 		}
@@ -56,8 +70,13 @@ public class DangerWarning : MonoBehaviour {
 
 	public void Hide()
 	{
-		image.enabled = false;
-	}
+        go1.SetActive(false);
+        go2.SetActive(false);
+        for (int i = 0; i < arrowGo.Count; i++)
+        {
+            arrowGo[i].SetActive(false);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -66,7 +85,7 @@ public class DangerWarning : MonoBehaviour {
 			if (_loopTimer.isFinished() == true)
 				_loopTimer.Start ();
 
-			transform.localScale = Vector3.one *  animationCurve.Evaluate (_loopTimer.GetCurrentTime () / _loopTimer.Duration);
+			//transform.localScale = Vector3.one *  animationCurve.Evaluate (_loopTimer.GetCurrentTime () / _loopTimer.Duration);
 		}
 
 		
