@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource waterDrop2 = null;
 	public AudioSource waterDrop3 = null;
 
+	public AudioSource victory = null;
 
 	// Use this for initialization
 	void Awake () {

@@ -83,12 +83,6 @@ public class SpawnBlock : MonoBehaviour
 
 		bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
 
-		if (bloc.gameObject.name.StartsWith ("Square") == false) 
-		{
-			bloc.localScale = new Vector3(Random.Range(0.8f, 1.5f), Random.Range(0.8f, 1.5f), 1f);
-		}
-
-
         if(position != -1) {
             bloc.localPosition = new Vector3(MAX_X_SPAWN * 2f * (((float)position) / (SPAWN_AT_START - 1)) + MIN_X_SPAWN, 0f, 0f);
         } else {
