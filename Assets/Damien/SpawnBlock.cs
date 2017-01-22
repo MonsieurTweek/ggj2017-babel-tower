@@ -14,6 +14,9 @@ public class SpawnBlock : MonoBehaviour
 
     public bool spawnActivated = false;
     public float popDelay = 5.0f;
+    private bool fastPop = false;
+    public int seuil = 3;
+
 	public float ratioSpecial = 0f;
 
 	public static int BLOCK_INDEX = 0;
@@ -45,6 +48,16 @@ public class SpawnBlock : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(blockList.Count <= seuil) {
+            if(fastPop == false) {
+                _popTimer.Stop();
+                _popTimer.SetDuration(getFastPopDelay());
+                _popTimer.Start();
+                fastPop = true;
+            } else {
+                _popTimer.SetDuration(getFastPopDelay());
+            }
+        }
         if (spawnActivated == true && _popTimer.isFinished() == true)
         {
 			Spawn ();
@@ -87,8 +100,16 @@ public class SpawnBlock : MonoBehaviour
 
         bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
         blockList.Add(bloc.gameObject);
-      
-		_popTimer.SetDuration(popDelay);
+
+        if(blockList.Count > seuil && fastPop == true) {
+            fastPop = false;
+        }
+
+        if(fastPop == false) {
+            _popTimer.SetDuration(popDelay);
+        } else {
+            _popTimer.SetDuration(getFastPopDelay());
+        }
 		_popTimer.Start();
 
 		bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
@@ -98,6 +119,10 @@ public class SpawnBlock : MonoBehaviour
 			bloc.GetComponent<GameBlock> ().SetRandomFamily ();
 		}
 	}
+
+    private float getFastPopDelay() {
+        return (blockList.Count * 100 / maxBlocs) * popDelay / 100;
+    }
 
     public void freeBlock() {
         if(blockList.Count >= maxBlocs) {
