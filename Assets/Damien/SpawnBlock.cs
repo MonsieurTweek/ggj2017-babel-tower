@@ -82,7 +82,7 @@ public class SpawnBlock : MonoBehaviour
 
 		bloc.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
 
-		if (bloc.gameObject.name.StartsWith ("Block") == false) 
+		if (bloc.gameObject.name.StartsWith ("Square") == false) 
 		{
 			bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
 		}
@@ -117,6 +117,8 @@ public class SpawnBlock : MonoBehaviour
 		if (Random.Range (0f, 1f) < ratioSpecial)
 		{
 			bloc.GetComponent<GameBlock> ().SetRandomFamily ();
+
+			//bloc.localScale = new Vector3(1f, 1f, 1f);
 		}
 	}
 
