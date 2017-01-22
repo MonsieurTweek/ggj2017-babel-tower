@@ -21,6 +21,8 @@ public class GameBlock : MonoBehaviour
 
     public Texture2D atlas;
 
+	public int collisionCount = 0;
+
     void Awake ()
 	{
 		_spriteRenderer 	= gameObject.GetComponent<SpriteRenderer> ();
@@ -126,6 +128,8 @@ public class GameBlock : MonoBehaviour
 	{
         CheckNearObject(collision);
         checkCollision(collision);
+
+		collisionCount++;
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
@@ -172,6 +176,8 @@ public class GameBlock : MonoBehaviour
 
 	void OnCollisionExit2D(Collision2D collision)
 	{
+		collisionCount--;
+
 		if (collision.gameObject.CompareTag ("GameBlock") == true) 
 		{
 			GameBlock block = collision.gameObject.GetComponent<GameBlock> ();

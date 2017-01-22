@@ -25,10 +25,10 @@ public class Game : MonoBehaviour {
 
 	public bool dangerActivated = true;
 
-	public AlienEffect alienEffect = null;
-	public WindEffect	tsunamiEffect = null;
-	public WindEffect	windEffect = null;
-	public QuakeEffect 	quakeEffect = null;
+	public EffectBlock alienEffect = null;
+	public EffectBlock	tsunamiEffect = null;
+	public EffectBlock	windEffect = null;
+	public EffectBlock 	quakeEffect = null;
 
 	private DangerEngine _dangerEngine = null;
 
