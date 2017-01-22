@@ -10,6 +10,8 @@ public class DangerWarning : MonoBehaviour {
 	private Timer _timer = new Timer(0f);
 	private Timer _loopTimer = new Timer(0f);
 
+	private GameObject _arrowActive = null;
+
 	public Image image = null;
     public GameObject go1 = null;
     public GameObject go2 = null;
@@ -49,23 +51,25 @@ public class DangerWarning : MonoBehaviour {
 		{
 		case BlockFamily.Cosmos:
 			image.sprite = alienSprite;
-            arrowGo[0].SetActive(true);
+			_arrowActive = arrowGo [0];
 			break;
 		case BlockFamily.Tsunami:
 			image.sprite = tsunamiSprite;
-            arrowGo[1].SetActive(true);
+			_arrowActive = arrowGo [1];
             break;
 		case BlockFamily.Wind:
 			image.sprite = windSprite;
-            arrowGo[3].SetActive(true);
+			_arrowActive = arrowGo [3];
             break;
 		case BlockFamily.Quake:
 			image.sprite = quakeSprite;
-            arrowGo[2].SetActive(true);
+			_arrowActive = arrowGo [2];
             break;
 		default:
 			break;
 		}
+
+		_arrowActive.SetActive (true);
 	}
 
 	public void Hide()
@@ -85,7 +89,8 @@ public class DangerWarning : MonoBehaviour {
 			if (_loopTimer.isFinished() == true)
 				_loopTimer.Start ();
 
-			//transform.localScale = Vector3.one *  animationCurve.Evaluate (_loopTimer.GetCurrentTime () / _loopTimer.Duration);
+			if (_arrowActive != null)
+				_arrowActive.transform.localScale = Vector3.one *  animationCurve.Evaluate (_loopTimer.GetCurrentTime () / _loopTimer.Duration);
 		}
 
 		
