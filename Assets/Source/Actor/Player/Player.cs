@@ -60,16 +60,21 @@ public class Player : MonoBehaviour
 
         float maxFound = -2.5f;
 
-        foreach(GameObject ownedObject in this.objectsList) {
+        foreach(GameObject ownedObject in this.objectsList)
+		{
             PolygonCollider2D collider = ownedObject.GetComponent<PolygonCollider2D>();
-            for(int i = 0; i < collider.points.Length; i++) {
-                
-                if(maxFound.Equals(-2.5f)) {
-                    maxFound = collider.transform.TransformPoint(collider.points[i]).y;
-                } else if(maxFound < collider.transform.TransformPoint(collider.points[i]).y) {
-                    maxFound = collider.transform.TransformPoint(collider.points[i]).y;
-                }
-            }
+
+			Vector2[] points = collider.points;
+
+			Vector2 higherPoint = new Vector2 (float.MinValue, float.MinValue);
+
+			for (int i = 0; i < points.Length; i++) 
+				if (points [i].y > higherPoint.y)
+					higherPoint = points [i];
+
+			Vector3 worldPoint = collider.transform.TransformPoint (higherPoint);
+
+			maxFound = Mathf.Max (maxFound, worldPoint.y);
         }
 
         this.towerHeight = maxFound;

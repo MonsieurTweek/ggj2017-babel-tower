@@ -36,7 +36,7 @@ public class GameBlock : MonoBehaviour
     private void Update() {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
         if(screenPosition.y < 0) {
-            Player[] players = GameObject.FindObjectsOfType<Player>();
+            Player[] players = Game.instance.players;
             foreach(Player player in players) {
                 player.removeObject(this.gameObject);
             }
@@ -135,7 +135,7 @@ public class GameBlock : MonoBehaviour
     private void checkCollision(Collision2D collision) {
         // Si on est sous le seuil des bases, le bloc redevient neutre
         if(this.gameObject.transform.position.y < -2.25f) { // -2.5 de seuil + une sércurité
-            Player[] players = GameObject.FindObjectsOfType<Player>();
+            Player[] players = Game.instance.players;
             for(int i = 0; i < players.Length; i++) {
                 players[i].removeObject(this.gameObject);
             }

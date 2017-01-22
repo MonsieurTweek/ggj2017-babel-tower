@@ -132,7 +132,7 @@ public class PlayerControl : MonoBehaviour {
     }
 
     private bool isOwned(GameObject target) {
-        Player[] players = GameObject.FindObjectsOfType<Player>();
+        Player[] players = Game.instance.players;
         bool isOwned = false;
 
         foreach(Player player in players) {
