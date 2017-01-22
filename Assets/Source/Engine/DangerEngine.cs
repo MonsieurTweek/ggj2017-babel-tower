@@ -89,10 +89,19 @@ public class DangerEngine
 
 			_dangerTimer.SetDuration (10);
 			_dangerTimer.Start ();
+
+			AudioManager.instance.alert.Play ();
+			AudioManager.instance.mainMusic.Stop ();
+			AudioManager.instance.mainMusic.PlayDelayed (2.8f);
+			AudioManager.instance.mainMusic.pitch =  1.4f;
 		}
 		if (_currentState == STATE.IN_PROGRESS) 
 		{
 			LaunchDanger ();
+
+			AudioManager.instance.mainMusic.Stop ();
+			AudioManager.instance.mainMusic.PlayDelayed (2.8f);
+			AudioManager.instance.mainMusic.pitch =  1f;
 
 			Game.instance.dangerWarning.Hide ();
 

@@ -13,6 +13,10 @@ public class Woosh : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         _elapsedTime = 0;
+
+		AudioManager.instance.waterDrop.PlayDelayed (0.1f);
+		AudioManager.instance.waterDrop2.PlayDelayed (1.1f);
+		AudioManager.instance.waterDrop3.PlayDelayed (2.1f);
 	}
 	
 	// Update is called once per frame
@@ -27,6 +31,8 @@ public class Woosh : MonoBehaviour {
             GetComponent<Animator>().Stop();
             _processAnim = false;
             Game.instance.enableInputs();
+
+			AudioManager.instance.mainMusic.Play ();
         }
     }
 

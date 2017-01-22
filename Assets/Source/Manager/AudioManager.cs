@@ -12,11 +12,14 @@ public class AudioManager : MonoBehaviour {
 	
 	public AudioSource mainMusic = null;
 
-	public AudioSource plop = null;
+	public AudioSource alert = null;
+	public AudioSource waterDrop = null;
+	public AudioSource waterDrop2 = null;
+	public AudioSource waterDrop3 = null;
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		instance = this;
 	}
 	

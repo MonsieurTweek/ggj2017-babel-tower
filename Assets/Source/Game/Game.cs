@@ -56,8 +56,6 @@ public class Game : MonoBehaviour {
         _Timer.Start();
 
 		_dangerEngine  = new DangerEngine();
-
-		AudioManager.instance.mainMusic.Play ();
     }
 	
 	// Update is called once per frame
