@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour {
 
@@ -13,6 +14,8 @@ public class Game : MonoBehaviour {
     private float elapsedTime = 0f; // in seconds
     public float countdownTime = 120f; // in seconds
     public AnimationCurve animationCurve = null;
+
+    public float delayBeforeRestart = 5f;
 
     // UI Elements
     public CountdownAnimator countdown;
@@ -48,6 +51,8 @@ public class Game : MonoBehaviour {
         _Timer.Start();
 
 		_dangerEngine  = new DangerEngine();
+
+		AudioManager.instance.mainMusic.Play ();
     }
 	
 	// Update is called once per frame
@@ -114,5 +119,15 @@ public class Game : MonoBehaviour {
         victoryLabel.color = winner.playerColor;
         victoryLabel.text = (winner.playerName + " wins").ToUpper();
         victoryScreen.SetActive(true);
+        restart();
+    }
+
+    public void restart() {
+        StartCoroutine("waitForRestart");
+    }
+
+    IEnumerator waitForRestart() {
+        yield return new WaitForSeconds(delayBeforeRestart);
+        SceneManager.LoadScene("Menu");
     }
 }

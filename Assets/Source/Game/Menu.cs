@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour
     public GameObject MenuPanel;
     public GameObject OptionsPanel;
     public GameObject CreditsPanel;
+    public GameObject PlayPanel;
 
     private GameObject selectedButtonForce;
 
@@ -21,7 +22,8 @@ public class Menu : MonoBehaviour
         MenuPanel.SetActive(true);
         OptionsPanel.SetActive(false);
         CreditsPanel.SetActive(false);
-        topButton = GameObject.Find("Start").GetComponent<Button>();
+        PlayPanel.SetActive(false);
+        topButton = GameObject.Find("Play").GetComponent<Button>();
     }
 
 	// Update is called once per frame
@@ -57,7 +59,7 @@ public class Menu : MonoBehaviour
         OptionsPanel.SetActive(false);
         CreditsPanel.SetActive(false);
 
-        Button selectedButton = GameObject.Find("Start").GetComponent<Button>();
+        Button selectedButton = GameObject.Find("Play").GetComponent<Button>();
         selectedButton.Select();
 
         topButton = MenuPanel.GetComponentsInChildren<Button>()[0];
@@ -74,9 +76,27 @@ public class Menu : MonoBehaviour
         topButton = CreditsPanel.GetComponentsInChildren<Button>()[0];
     }
 
+    public void ShowPlayPanel() {
+        MenuPanel.SetActive(false);
+        PlayPanel.SetActive(true);
+        pressStart();
+    }
+
     public void exitGame()
     {
         Application.Quit();
+    }
+
+    public void pressStart() {
+        StartCoroutine(pressStartCoroutine("Submit"));
+    }
+
+    IEnumerator pressStartCoroutine(string inputName) {
+        yield return new WaitForSeconds(0.5f);
+        while(!Input.GetButton(inputName)) {
+            yield return null;
+        }
+        StartGame();
     }
 
 }
