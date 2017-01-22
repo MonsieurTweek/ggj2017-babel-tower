@@ -92,7 +92,7 @@ public class PlayerControl : MonoBehaviour {
             if(
                 this.target != null &&
                 target.CompareTag("GameBlock") == true &&
-                isOwned(target) == false &&
+				isOwnedByEnemy(target) == false &&
                 target.GetComponent<GameBlock>().catchPlayer == null
                ) {
                 this.dragging = true;
@@ -106,7 +106,7 @@ public class PlayerControl : MonoBehaviour {
         } else if(
             this.dragging == true &&
             prevState.Buttons.A == ButtonState.Released &&
-            isOwned(target) == false &&
+			isOwnedByEnemy(target) == false &&
             target.GetComponent<GameBlock>().catchPlayer.Equals(GetComponent<Player>()) == true
         )
         {
@@ -141,6 +141,18 @@ public class PlayerControl : MonoBehaviour {
 
         return isOwned;
     }
+
+	private bool isOwnedByEnemy(GameObject target) {
+		Player[] players = Game.instance.players;
+		bool isOwned = false;
+
+		foreach(Player player in players) {
+			if (player.playerIndex != playerIndex)
+				isOwned = isOwned || player.hasObject(target);
+		}
+
+		return isOwned;
+	}
 
     private void disablePhysics(GameObject target) {
         target.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
