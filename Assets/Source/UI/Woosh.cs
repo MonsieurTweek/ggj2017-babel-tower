@@ -26,6 +26,7 @@ public class Woosh : MonoBehaviour {
         {
             GetComponent<Animator>().Stop();
             _processAnim = false;
+            Game.instance.enableInputs();
         }
     }
 

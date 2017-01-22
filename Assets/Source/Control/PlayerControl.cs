@@ -23,6 +23,8 @@ public class PlayerControl : MonoBehaviour {
     public GamePadState state;
     public GamePadState prevState;
 
+    public bool recordInput = false;
+
     private GameObject GetTargetObject(out RaycastHit2D hit)
     {
         GameObject target = null;
@@ -37,22 +39,25 @@ public class PlayerControl : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        recordInput = false;
         playerIndex = GetComponent<Player>().playerIndex;
-		
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-
-        prevState = state;
-        state = GamePad.GetState(playerIndex);
+        if(recordInput == true) {
+            prevState = state;
+            state = GamePad.GetState(playerIndex);
+        }
 
     }
 
     void FixedUpdate ()
     {
+        if(recordInput == false) {
+            return;
+        }
 
         // Make the current object turn
         // Priority order :

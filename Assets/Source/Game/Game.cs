@@ -143,4 +143,10 @@ public class Game : MonoBehaviour {
         yield return new WaitForSeconds(delayBeforeRestart);
         SceneManager.LoadScene("Menu");
     }
+
+    public void enableInputs() {
+        for(int i = 0; i < players.Length; i++) {
+            players[i].GetComponent<PlayerControl>().recordInput = true;
+        }
+    }
 }
