@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     // UI Score
     public Text score;
 
+    // Gamepad vibration
+    private bool _vibrationEnabled = false;
+
     // Use this for initialization
     public void Start ()
 	{
@@ -91,6 +94,18 @@ public class Player : MonoBehaviour
         {
             score.text = "0.0m";
         }
+    }
+
+    public void ToggleVibration(float leftMotor, float rightMotor)
+    {
+        if (_vibrationEnabled == false)
+        {
+            GamePad.SetVibration(playerIndex, leftMotor, rightMotor);
+        } else
+        {
+            GamePad.SetVibration(playerIndex, 0f, 0f);
+        }
+        _vibrationEnabled = !_vibrationEnabled;
     }
 
 }

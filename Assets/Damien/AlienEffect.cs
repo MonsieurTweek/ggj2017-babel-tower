@@ -20,7 +20,9 @@ public class AlienEffect : EffectBlock
 
 		yield return null;
 
-		while (t < 1f) 
+        Game.instance.ToggleVibration(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f));
+
+        while (t < 1f) 
 		{
 			t = (Time.time - _startTime) / duration;
 
@@ -45,6 +47,8 @@ public class AlienEffect : EffectBlock
 
 		yield return new WaitForSeconds (0.5f);
 
-		DettachBlocks (blocks);
+        Game.instance.ToggleVibration();
+
+        DettachBlocks (blocks);
 	}	
 }

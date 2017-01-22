@@ -122,6 +122,14 @@ public class Game : MonoBehaviour {
         restart();
     }
 
+    public void ToggleVibration(float leftMotor = 1f, float rightMotor = 1f)
+    {
+        for(int i = 0; i < players.Length; i++)
+        {
+            players[i].ToggleVibration(leftMotor, rightMotor);
+        }
+    }
+
     public void restart() {
         StartCoroutine("waitForRestart");
     }
