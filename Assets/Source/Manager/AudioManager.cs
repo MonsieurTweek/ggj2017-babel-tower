@@ -19,6 +19,11 @@ public class AudioManager : MonoBehaviour {
 
 	public AudioSource victory = null;
 
+	public AudioSource wind = null;
+	public AudioSource quake = null;
+	public AudioSource water = null;
+	public AudioSource space = null;
+
 	// Use this for initialization
 	void Awake () {
 		instance = this;
