@@ -55,8 +55,9 @@ public class Player : MonoBehaviour
             GameObject.Find("Spawn Area").GetComponent<SpawnBlock>().addBlock(releasedObject);
             releasedObject.GetComponentInChildren<SpriteRenderer>().color = new Color(50f/255f, 50f/255f, 50f/255f);
             releasedObject.transform.position = new Vector3(releasedObject.transform.position.x, releasedObject.transform.position.y, 0.0f);
-            this.updateTowerHeight();
+            
         }
+        this.updateTowerHeight();
     }
 
     private void updateTowerHeight() {
