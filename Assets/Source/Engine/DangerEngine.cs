@@ -85,9 +85,11 @@ public class DangerEngine
 		}
 		if (_currentState == STATE.WARNING) 
 		{
-			Game.instance.dangerWarning.SetDanger (currentDanger, 10);	
 
-			_dangerTimer.SetDuration (10);
+            int _duration = 7;
+			Game.instance.dangerWarning.SetDanger (currentDanger, _duration);	
+
+			_dangerTimer.SetDuration (_duration);
 			_dangerTimer.Start ();
 
 			AudioManager.instance.alert.Play ();
