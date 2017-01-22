@@ -6,6 +6,7 @@ public class WindEffect : EffectBlock
 {
 	public Vector2 direction = Vector2.zero;
 	public float   force	 = 0f;
+    public Animator feedbackAnimator;
 
 	protected override IEnumerator EffectSequence ()
 	{	
@@ -14,6 +15,10 @@ public class WindEffect : EffectBlock
 		AttachBlocks (blocks);
 
 		yield return null;
+
+        Debug.Log("Launch animation tsunami");
+        feedbackAnimator.enabled = true;
+        feedbackAnimator.Play("FeedbackAnimation", -1, 0f);
 
 		foreach (GameBlock block in blocks) 
 		{

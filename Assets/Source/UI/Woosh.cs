@@ -33,6 +33,6 @@ public class Woosh : MonoBehaviour {
     {
         _elapsedTime = 0;
         _processAnim = true;
-        GetComponent<Animator>().StartPlayback();
+        GetComponent<Animator>().Play("321Animation");
     }
 }

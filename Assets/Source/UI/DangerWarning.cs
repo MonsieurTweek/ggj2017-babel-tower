@@ -55,11 +55,11 @@ public class DangerWarning : MonoBehaviour {
 			break;
 		case BlockFamily.Tsunami:
 			image.sprite = tsunamiSprite;
-			_arrowActive = arrowGo [3];
+			_arrowActive = arrowGo [1];
             break;
 		case BlockFamily.Wind:
 			image.sprite = windSprite;
-			_arrowActive = arrowGo [1];
+			_arrowActive = arrowGo [3];
             break;
 		case BlockFamily.Quake:
 			image.sprite = quakeSprite;
