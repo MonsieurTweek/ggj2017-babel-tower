@@ -18,6 +18,7 @@ public class SpawnBlock : MonoBehaviour
     public int seuil = 3;
 
 	public float ratioSpecial = 0f;
+	public float ratioSpecialLinkedToNextDanger = 1f;
 
 	public static int BLOCK_INDEX = 0;
 	public static int SPAWN_AT_START = 5;
@@ -48,7 +49,7 @@ public class SpawnBlock : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(blockList.Count <= seuil) {
+		if(blockList.Count <= seuil || Game.instance.dangerEngine.currentState == DangerEngine.STATE.WARNING) {
             if(fastPop == false) {
                 _popTimer.Stop();
                 _popTimer.SetDuration(getFastPopDelay());
@@ -84,11 +85,7 @@ public class SpawnBlock : MonoBehaviour
 
 		if (bloc.gameObject.name.StartsWith ("Square") == false) 
 		{
-			bloc.localScale = new Vector3(Random.Range(2, 4) / 2f, Random.Range(2, 4) / 2f, 1f);
-		}
-		else
-		{
-			bloc.localScale = new Vector3(1f, 1f, 1f);
+			bloc.localScale = new Vector3(Random.Range(0.8f, 1.5f), Random.Range(0.8f, 1.5f), 1f);
 		}
 
 
@@ -114,12 +111,27 @@ public class SpawnBlock : MonoBehaviour
 
 		bloc.gameObject.name = "block_" + (++BLOCK_INDEX).ToString("0000");
 
-		if (Random.Range (0f, 1f) < ratioSpecial)
+		if (Game.instance.dangerEngine != null && Game.instance.dangerEngine.currentState == DangerEngine.STATE.WARNING) 
 		{
-			bloc.GetComponent<GameBlock> ().SetRandomFamily ();
-
-			//bloc.localScale = new Vector3(1f, 1f, 1f);
+			//next
+			if (Random.Range (0f, 1f) < ratioSpecialLinkedToNextDanger) 
+			{
+				bloc.GetComponent<GameBlock> ().SetFamily (Game.instance.dangerEngine.nextCurrentDanger);
+			} 
+			// current
+			else 
+			{
+				bloc.GetComponent<GameBlock> ().SetFamily (Game.instance.dangerEngine.currentDanger);
+			}
+		} else 
+		{
+			if (Random.Range (0f, 1f) < ratioSpecial)
+			{
+				if (Game.instance.dangerEngine.currentDanger != BlockFamily.None)
+					bloc.GetComponent<GameBlock> ().SetFamily (Game.instance.dangerEngine.currentDanger);
+			}
 		}
+
 	}
 
     private float getFastPopDelay() {

@@ -1,20 +1,40 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class DangerEngine
 {
-	private BlockFamily _blockFamily = default(BlockFamily);
+	private List<BlockFamily> blockFamilyList = new List<BlockFamily>();
 	private Timer _dangerTimer	= null;
 
-	private enum STATE { WAITING, WARNING, IN_PROGRESS };
+	public enum STATE { WAITING, WARNING, IN_PROGRESS };
 
 	private STATE _currentState = STATE.WAITING;
 
 	public DangerEngine ()
 	{
+		for (int i = 0; i < 20; i++) {
+			blockFamilyList.Add((BlockFamily)UnityEngine.Random.Range (1, (int)BlockFamily.Size));
+		}
+
 		_dangerTimer = new Timer (0f);
 		SwitchState (STATE.WAITING);
+	}
+
+	public BlockFamily currentDanger
+	{
+		get { return blockFamilyList[0]; }
+	}
+
+	public BlockFamily nextCurrentDanger
+	{
+		get { return blockFamilyList[1]; }
+	}
+
+	public STATE currentState
+	{
+		get { return _currentState; }
 	}
 
 
@@ -56,14 +76,16 @@ public class DangerEngine
 			_dangerTimer.SetDuration (UnityEngine.Random.Range (10, 15));
 			_dangerTimer.Start ();
 
+			GetNewDanger ();
+
 			Debug.Log ("Danger stop");
+
+			blockFamilyList.RemoveAt (0);
 
 		}
 		if (_currentState == STATE.WARNING) 
 		{
-			GetNewDanger ();
-
-			Game.instance.dangerWarning.SetDanger (_blockFamily, 10);	
+			Game.instance.dangerWarning.SetDanger (currentDanger, 10);	
 
 			_dangerTimer.SetDuration (10);
 			_dangerTimer.Start ();
@@ -82,16 +104,14 @@ public class DangerEngine
 
 	private void GetNewDanger()
 	{
-		_blockFamily = (BlockFamily)UnityEngine.Random.Range (1, (int)BlockFamily.Size);
-
-		Debug.Log ("Launch danger in 10 sec " + _blockFamily.ToString ());
+		Debug.Log ("Launch danger in 10 sec " + currentDanger.ToString ());
 	}
 
 	private void LaunchDanger()
 	{
-		Debug.Log ("Launch danger " + _blockFamily.ToString ());
+		Debug.Log ("Launch danger " + currentDanger.ToString ());
 
-		switch (_blockFamily) 
+		switch (currentDanger) 
 		{
 		case BlockFamily.Wind:
 			Game.instance.windEffect.LaunchEffect ();

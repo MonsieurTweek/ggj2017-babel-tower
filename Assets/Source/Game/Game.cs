@@ -35,6 +35,11 @@ public class Game : MonoBehaviour {
 
 	private DangerEngine _dangerEngine = null;
 
+	public DangerEngine dangerEngine
+	{
+		get { return _dangerEngine; }
+	}
+
 	public void Awake(){
 		instance = this;
 #if UNITY_EDITOR
