@@ -16,11 +16,11 @@ public class WindEffect : EffectBlock
 
 		yield return null;
 
-        Debug.Log("Launch animation tsunami");
         feedbackAnimator.enabled = true;
         feedbackAnimator.Play("FeedbackAnimation", -1, 0f);
+        Game.instance.ToggleVibration(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f));
 
-		foreach (GameBlock block in blocks) 
+        foreach (GameBlock block in blocks) 
 		{
 			if (block.family == resistantFamily || block.isAttached == true)
 				continue;
@@ -34,6 +34,8 @@ public class WindEffect : EffectBlock
 
 		yield return new WaitForSeconds(0.5f);
 
-		DettachBlocks (blocks);
+        Game.instance.ToggleVibration();
+
+        DettachBlocks (blocks);
 	}
 }

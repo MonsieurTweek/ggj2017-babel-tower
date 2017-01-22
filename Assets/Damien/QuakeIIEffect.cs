@@ -20,7 +20,9 @@ public class QuakeIIEffect : EffectBlock
 
 		yield return null;
 
-		Vector2 direction = Vector2.right;
+        Game.instance.ToggleVibration(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f));
+
+        Vector2 direction = Vector2.right;
 
 		for (int i = 0; i < moveNumber; i++) 
 		{
@@ -73,6 +75,8 @@ public class QuakeIIEffect : EffectBlock
 
 		yield return new WaitForSeconds (0.5f);
 
-		DettachBlocks (blocks);
+        Game.instance.ToggleVibration();
+
+        DettachBlocks (blocks);
 	}	
 }
